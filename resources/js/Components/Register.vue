@@ -23,6 +23,7 @@ const submit = () => {
 <template>
     <GuestLayout>
         <Head title="Register" />
+
         <form @submit.prevent="submit">
             <div>
                 <InputLabel for="name" value="Name" />
@@ -92,11 +93,11 @@ const submit = () => {
             </div>
 
             <PrimaryButton
-                class="mt-6 w-full"
+                class="mt-6"
                 :class="{ 'opacity-25': form.processing }"
                 :disabled="form.processing"
             >
-                Register
+                Sign up
             </PrimaryButton>
             <div class="flex items-center justify-center mt-4">
                 <h1 class="dark:text-[#B0B0B0] text-[#4B5660] text-[16px] me-1">
@@ -104,9 +105,9 @@ const submit = () => {
                 </h1>
                 <Link
                     :href="route('login')"
-                    class="dark:text-[#EEEEEE] text-[#222831] text-[16px] hover:dark:text-[#6084FF] hover:dark:text-[#3B5FBF] underline"
+                    class="dark:text-[#B0B0B0] text-[#4B5660] text-[16px] hover:dark:text-[#6084FF] hover:dark:text-[#3B5FBF] underline"
                 >
-                    Login
+                    Sign in
                 </Link>
             </div>
         </form>
