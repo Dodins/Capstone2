@@ -12,3 +12,18 @@
         "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
         "Noto Color Emoji";
 }
+
+input:-webkit-autofill {
+    background-color: #DDE3E7 !important;
+    -webkit-text-fill-color: #222831 !important;
+    -webkit-box-shadow: 0 0 0px 1000px #DDE3E7 inset !important;
+    transition: background-color 9999s ease-in-out 0s;
+}
+
+/* Dark mode autofill styles */
+.dark input:-webkit-autofill {
+    background-color: #3C4053 !important;
+    -webkit-text-fill-color: #EEEEEE !important;
+    -webkit-box-shadow: 0 0 0px 1000px #3C4053 inset !important;
+    transition: background-color 9999s ease-in-out 0s;
+}
