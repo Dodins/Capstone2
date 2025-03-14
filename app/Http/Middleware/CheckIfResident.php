@@ -17,9 +17,12 @@ class CheckIfResident
     public function handle(Request $request, Closure $next): Response
     {
         $user = Auth::user();
+
         if($user && $user->role === 'resident'){
             return $next($request);
+
         }
+
         return response()->json([
             'message' => 'Access denied. You must be a resident.'
         ]);

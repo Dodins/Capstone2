@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\CheckIfAdmin;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -8,6 +9,9 @@ Route::get('/', function () {
 });
 
 
-Route::middleware(['auth', 'second'])->group(function () {
+
+// ADMIN MIDDLEWARE
+Route::middleware(['auth', CheckIfAdmin::class])->group(function () {
 
 });
+

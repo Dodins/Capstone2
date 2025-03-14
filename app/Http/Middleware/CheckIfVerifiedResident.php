@@ -18,12 +18,14 @@ class CheckIfVerifiedResident
     {
         $user = Auth::user();
 
-        if($user &&  $user->isVerified && $user->role === 'resident'){
+        if($user && $user->isVerified && $user->role === 'resident'){
             return $next($request);
+
         }
 
-    return response()->json([
-        'message' => 'Access denied. You must be a verified resident.'
-    ]);
+        return response()->json([
+            'message' => 'Access denied. You must be a verified resident.'
+        ]);
+
     }
 }
