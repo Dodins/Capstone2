@@ -72,7 +72,10 @@ const submit = () => {
             <div class="mt-4 block flex justify-between">
                 <label class="flex items-center">
                     <Checkbox name="remember" v-model:checked="form.remember" />
-                    <span class="ms-2 text-sm dark:text-[#B0B0B0] text-[#4B5660]">Remember me</span>
+                    <span
+                        class="ms-2 text-sm dark:text-[#B0B0B0] text-[#4B5660]"
+                        >Remember me</span
+                    >
                 </label>
                 <Link
                     v-if="canResetPassword"
@@ -89,8 +92,19 @@ const submit = () => {
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
-                   Login
+                    Login
                 </PrimaryButton>
+            </div>
+            <div class="flex items-center justify-center mt-4">
+                <h1 class="dark:text-[#B0B0B0] text-[#4B5660] text-[16px] me-1">
+                    Don't have an account yet?
+                </h1>
+                <Link
+                    :href="route('login')"
+                    class="dark:text-[#EEEEEE] text-[#222831] text-[16px] hover:dark:text-[#6084FF] hover:dark:text-[#3B5FBF] underline"
+                >
+                    Register
+                </Link>
             </div>
         </form>
     </GuestLayout>
