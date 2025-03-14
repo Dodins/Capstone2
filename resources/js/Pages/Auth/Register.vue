@@ -14,7 +14,11 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post(route("admin.register"), {
+    if (form.password !== form.password_confirmation) {
+        form.errors.password_confirmation = "Passwords do not match.";
+        return;
+    }
+    form.post(route("register"), {
         onFinish: () => form.reset("password", "password_confirmation"),
     });
 };
