@@ -23,7 +23,7 @@ const showingNavigationDropdown = ref(false);
         class="dark:bg-[#2C2F40] bg-[#EAEFF2] h-screen w-screen px-4 py-6 flex"
     >
         <aside
-            class="dark:bg-[#3C4053] bg-[#DDE3E7] rounded-[16px] me-2 flex flex-col"
+            class="dark:bg-[#3C4053] bg-[#DDE3E7] rounded-[16px] me-2 flex flex-col px-2"
         >
             <div class="flex items-center mt-6 ms-4">
                 <ApplicationLogo
