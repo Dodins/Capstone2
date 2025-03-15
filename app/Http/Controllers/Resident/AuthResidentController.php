@@ -7,7 +7,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules;
+use Illuminate\Validation\ValidationException;
 
 class AuthResidentController extends Controller
 {
@@ -72,4 +74,50 @@ class AuthResidentController extends Controller
 
         return response()->json('Log out succesfully!');
     }
+
+
+    public function forgotPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+        ]);
+
+        $otp = str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT);
+        $user = User::where('email', $request->email)->first();
+        $user->otp = $otp;
+        $user->otp_expires_at = now()->addMinutes(10);
+        $user->save();
+
+        Mail::send('emails.otp', ['otp' => $otp], function ($message) use ($request) {
+            $message->to($request->email);
+            $message->subject('Your Password Reset OTP');
+        });
+
+        return response()->json(['message' => 'OTP sent to your email']);
+    }
+
+     // Reset password method
+     public function resetPassword(Request $request)
+     {
+         $request->validate([
+             'email' => 'required|email|exists:users,email',
+             'otp' => 'required|string',
+             'password' => 'required|string|min:8|confirmed',
+         ]);
+
+         $user = User::where('email', $request->email)->where('otp', $request->otp)->where('otp_expires_at', '>', now())->first();
+
+         if (!$user) {
+             throw ValidationException::withMessages([
+                 'otp' => ['The provided OTP is invalid or has expired.'],
+             ]);
+         }
+
+         $user->password = Hash::make($request->password);
+         $user->otp = null;
+         $user->otp_expires_at = null;
+         $user->save();
+
+         return response()->json(['message' => 'Password reset successfully']);
+     }
 }

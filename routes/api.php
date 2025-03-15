@@ -13,13 +13,21 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', [AuthResidentController::class, 'authenticate']);
 Route::post('/register', [AuthResidentController::class, 'store']);
 
+// PASSWORD RESET SYSTEM
+Route::post('/forgot-password', [AuthResidentController::class, 'forgotPassword']);
+Route::post('/reset-password', [AuthResidentController::class, 'resetPassword']);
+
 // RESIDENT
 Route::middleware(['auth:sanctum', CheckIfResident::class])->group(function () {
 
     Route::post('/logout', [AuthResidentController::class, 'destroy']);
     Route::get('/announcements', [AnnouncementResidentController::class,'index']);
-    Route::post('/verify', [VerificationResidentController::class, 'store']);
-    Route::get('/verifyget', [VerificationResidentController::class, 'index']);
+    Route::post('/submit-verification', [VerificationResidentController::class, 'store']);
+    Route::get('/existing-verification', [VerificationResidentController::class, 'index']);
+
+
+
+
 });
 
 // VERIFIED RESIDENT
