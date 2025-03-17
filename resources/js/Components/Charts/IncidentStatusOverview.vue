@@ -68,13 +68,16 @@ const chartOptions = ref({
     responsive: true,
     maintainAspectRatio: false,
     layout: {
-        padding: 16,
+        padding: {
+            top: 16,
+        }
     },
     plugins: {
         legend: {
             display: true,
-            position: "left",
-            align: "end",
+            position: "bottom",
+            align: "start",
+            fullSize: false,
             labels: {
                 usePointStyle: true,
                 pointStyle: "circle",
@@ -95,10 +98,9 @@ const chartOptions = ref({
             backgroundColor: "rgba(255, 255, 255, 0.9)",
             borderRadius: 12,
             padding: {
-                left: 14,
-                right: 14,
-                top: 8,
-                bottom: 8,
+                left: 16,
+                right: 16,
+                top: 10,
             },
             font: {
                 family: "'Quicksand', sans-serif",
@@ -107,7 +109,7 @@ const chartOptions = ref({
             },
             anchor: "end",
             align: "start",
-            offset: -16,
+            offset: -18,
             formatter: (value, context) => {
                 const total = context.dataset.data.reduce(
                     (acc, val) => acc + val,

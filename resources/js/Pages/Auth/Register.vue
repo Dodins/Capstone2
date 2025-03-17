@@ -108,7 +108,7 @@ const submit = () => {
                 </h1>
                 <Link
                     :href="route('login')"
-                    class="dark:text-[#EEEEEE] text-[#222831] text-[16px] hover:dark:text-[#6084FF] hover:dark:text-[#3B5FBF] underline"
+                    class="dark:text-[#6084FF] text-[#3B5FBF] hover:underline"
                 >
                     Login
                 </Link>
