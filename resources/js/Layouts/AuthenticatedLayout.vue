@@ -22,11 +22,11 @@ import {
     <div
         class="dark:bg-[#2C2F40] bg-[#EAEFF2] h-screen overflow-hidden flex px-8 py-6 gap-4"
     >
-        <div class="h-full w-1/6">
+        <div class="h-full w-1/7">
             <aside
-                class="flex flex-col h-full dark:bg-[#3C4053] bg-[#DDE3E7] rounded-2xl py-4 ps-4"
+                class="flex flex-col h-full dark:bg-[#3C4053] bg-[#DDE3E7] rounded-2xl py-6 ps-4"
             >
-                <div class="flex items-center ps-4 pt-2">
+                <div class="flex items-center">
                     <ApplicationLogo
                         class="h-10 w-auto fill-current pt-2 me-2"
                     />
@@ -115,7 +115,7 @@ import {
                 </NavLink>
             </aside>
         </div>
-        <div class="h-full w-5/6 flex flex-col">
+        <div class="h-full w-6/7 flex flex-col">
             <header
                 class="h-1/11 w-full flex items-center justify-between px-4 dark:bg-[#3C4053] bg-[#DDE3E7] rounded-2xl"
             >

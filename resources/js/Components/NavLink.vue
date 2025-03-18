@@ -18,8 +18,8 @@ const props = defineProps({
 
 const classes = computed(() =>
     props.active
-        ? "my-4 flex dark:text-[#6084FF] text-[#3B5FBF] w-full border-r-5 font-bold pe-12 ps-4"
-        : "my-4 dark:text-[#B0B0B0] text-[#4B5660] flex items-center ps-4"
+        ? "my-4 flex dark:text-[#6084FF] text-[#3B5FBF] w-full border-r-5 font-bold"
+        : "my-4 dark:text-[#B0B0B0] text-[#4B5660] flex items-center"
 );
 </script>
 
