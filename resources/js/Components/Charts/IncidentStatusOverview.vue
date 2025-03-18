@@ -70,13 +70,14 @@ const chartOptions = ref({
     layout: {
         padding: {
             top: 16,
-        }
+            bottom: 16,
+        },
     },
     plugins: {
         legend: {
             display: true,
-            position: "bottom",
-            align: "start",
+            position: "left",
+            align: "center",
             fullSize: false,
             labels: {
                 usePointStyle: true,
@@ -87,7 +88,7 @@ const chartOptions = ref({
                     weight: "bold",
                 },
                 color: computed(() =>
-                    isDarkMode.value ? "#EEEEEE" : "#333333"
+                    isDarkMode.value ? "#EEEEEE" : "#222831"
                 ),
             },
         },

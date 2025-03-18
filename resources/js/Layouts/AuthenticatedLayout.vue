@@ -20,11 +20,11 @@ import {
 
 <template>
     <div
-        class="dark:bg-[#2C2F40] bg-[#EAEFF2] h-screen overflow-hidden flex flex-col px-8 py-6"
+        class="dark:bg-[#2C2F40] bg-[#EAEFF2] h-screen overflow-hidden flex px-8 py-6 gap-4"
     >
-        <div class="w-full h-full flex">
+        <div class="h-full w-1/6">
             <aside
-                class="flex flex-col h-full dark:bg-[#3C4053] bg-[#DDE3E7] rounded-lg"
+                class="flex flex-col h-full dark:bg-[#3C4053] bg-[#DDE3E7] rounded-2xl py-4 ps-4"
             >
                 <div class="flex items-center ps-4 pt-2">
                     <ApplicationLogo
@@ -38,11 +38,11 @@ import {
                 </div>
 
                 <div class="flex-1 flex flex-col justify-center">
-                    <h1
+                    <!-- <h1
                         class="ps-4 dark:text-[#B0B0B0] text-[#4B5660]dark:text-[#B0B0B0] text-[#4B5660] font-bold text-xs"
                     >
                         GENERAL
-                    </h1>
+                    </h1> -->
                     <NavLink
                         :href="route('dashboard')"
                         :active="route().current('dashboard')"
@@ -114,35 +114,37 @@ import {
                     Log Out
                 </NavLink>
             </aside>
-            <div class="flex flex-col h-full w-full ms-4">
-                <header
-                    class="flex justify-between items-center dark:bg-[#3C4053] bg-[#DDE3E7] rounded-lg p-4"
-                >
+        </div>
+        <div class="h-full w-5/6 flex flex-col">
+            <header
+                class="h-1/11 w-full flex items-center justify-between px-4 dark:bg-[#3C4053] bg-[#DDE3E7] rounded-2xl"
+            >
+                <div>
                     <div
-                        class="dark:text-[#EEEEEE] text-[#222831] font-bold text-[18px]"
+                        class="flex dark:text-[#B0B0B0] text-[#4B5660] text-[12px] font-bold"
                     >
-                        <div
-                            class="flex dark:text-[#B0B0B0] text-[#4B5660] text-[12px]"
-                        >
-                            <h1 class="me-1">Pages /</h1>
-                            <slot name="header" />
-                        </div>
+                        <h1 class="me-1">Pages /</h1>
                         <slot name="header" />
                     </div>
-                    <div class="flex items-center">
-                        <MoonIcon
-                            class="h-6 w-6 text-[#3B5FBF] dark:text-[#6084FF] me-4"
-                        />
-                        <BellIcon
-                            class="h-6 w-6 text-[#3B5FBF] dark:text-[#6084FF] me-4"
-                        />
-                        <ProfilePicture class="" />
+                    <div
+                        class="dark:text-[#EEEEEE] text-[#222831] text-[18px] font-bold"
+                    >
+                        <slot name="header" />
                     </div>
-                </header>
-                <main class="h-full w-full">
-                    <slot />
-                </main>
-            </div>
+                </div>
+                <div class="flex items-center">
+                    <MoonIcon
+                        class="h-6 w-6 text-[#3B5FBF] dark:text-[#6084FF] me-4"
+                    />
+                    <BellIcon
+                        class="h-6 w-6 text-[#3B5FBF] dark:text-[#6084FF] me-4"
+                    />
+                    <ProfilePicture class="" />
+                </div>
+            </header>
+            <main class="h-10/11 w-full">
+                <slot />
+            </main>
         </div>
     </div>
 </template>
