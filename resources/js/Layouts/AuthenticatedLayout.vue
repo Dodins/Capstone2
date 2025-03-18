@@ -16,6 +16,18 @@ import {
     BellIcon,
     MoonIcon,
 } from "@heroicons/vue/24/solid";
+import {
+    Squares2X2Icon as Squares2X2IconOutline,
+    ShieldCheckIcon as ShieldCheckIconOutline,
+    ClipboardIcon as ClipboardIconOutline,
+    CalendarIcon as CalendarIconOutline,
+    MapIcon as MapIconOutline,
+    MegaphoneIcon as MegaphoneIconOutline,
+    VideoCameraIcon as VideoCameraIconOutline,
+    MinusCircleIcon as MinusCircleIconOutline,
+    BellIcon as BellIconOutline,
+    MoonIcon as MoonIconOutline,
+} from "@heroicons/vue/24/outline";
 </script>
 
 <template>
@@ -46,7 +58,8 @@ import {
                     <NavLink
                         :href="route('dashboard')"
                         :active="route().current('dashboard')"
-                        :icon="Squares2X2Icon"
+                        :iconSolid="Squares2X2Icon"
+                        :iconOutline="Squares2X2IconOutline"
                         class="hover:dark:text-[#6084FF] hover:text-[#3B5FBF] transition-colors"
                     >
                         Dashboard
@@ -54,14 +67,16 @@ import {
                     <NavLink
                         :href="route('verification')"
                         :active="route().current('verification')"
-                        :icon="ShieldCheckIcon"
+                        :iconSolid="ShieldCheckIcon"
+                        :iconOutline="ShieldCheckIconOutline"
                         class="hover:dark:text-[#6084FF] hover:text-[#3B5FBF] transition-colors"
                     >
                         Verification
                     </NavLink>
                     <Submenu
                         title="Reports"
-                        :icon="ClipboardIcon"
+                        :iconSolid="ClipboardIcon"
+                        :iconOutline="ClipboardIconOutline"
                         :subLinks="[
                             {
                                 label: 'Incoming concern',
@@ -79,28 +94,32 @@ import {
                     />
                     <NavLink
                         :href="route('dashboard')"
-                        :icon="CalendarIcon"
+                        :iconSolid="CalendarIcon"
+                        :iconOutline="CalendarIconOutline"
                         class="hover:dark:text-[#6084FF] hover:text-[#3B5FBF] transition-colors"
                     >
                         Calendar
                     </NavLink>
                     <NavLink
                         :href="route('dashboard')"
-                        :icon="MapIcon"
+                        :iconSolid="MapIcon"
+                        :iconOutline="MapIconOutline"
                         class="hover:dark:text-[#6084FF] hover:text-[#3B5FBF] transition-colors"
                     >
                         Map
                     </NavLink>
                     <NavLink
                         :href="route('dashboard')"
-                        :icon="MegaphoneIcon"
+                        :iconSolid="MegaphoneIcon"
+                        :iconOutline="MegaphoneIconOutline"
                         class="hover:dark:text-[#6084FF] hover:text-[#3B5FBF] transition-colors"
                     >
                         Announcements
                     </NavLink>
                     <NavLink
                         :href="route('dashboard')"
-                        :icon="VideoCameraIcon"
+                        :iconSolid="VideoCameraIcon"
+                        :iconOutline="VideoCameraIconOutline"
                         class="hover:dark:text-[#6084FF] hover:text-[#3B5FBF] transition-colors"
                     >
                         CCTV
@@ -109,7 +128,8 @@ import {
                 <NavLink
                     :href="route('logout')"
                     method="post"
-                    :icon="MinusCircleIcon"
+                    :iconSolid="MinusCircleIcon"
+                    :iconOutline="MinusCircleIconOutline"
                 >
                     Log Out
                 </NavLink>

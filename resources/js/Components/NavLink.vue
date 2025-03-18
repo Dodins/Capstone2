@@ -10,7 +10,11 @@ const props = defineProps({
     active: {
         type: Boolean,
     },
-    icon: {
+    iconSolid: {
+        type: Object,
+        default: null,
+    },
+    iconOutline: {
         type: Object,
         default: null,
     },
@@ -25,7 +29,8 @@ const classes = computed(() =>
 
 <template>
     <Link :href="href" :class="classes">
-        <component v-if="icon" :is="icon" class="w-6 h-6 me-2" />
+        <component :is="props.active ? iconSolid : iconOutline""
+        class="w-6 h-6 me-2" />
         <slot />
     </Link>
 </template>

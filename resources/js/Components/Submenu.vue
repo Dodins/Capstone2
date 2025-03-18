@@ -5,7 +5,8 @@ import NavLink from "@/Components/NavLink.vue";
 
 const props = defineProps({
     title: String,
-    icon: Object,
+    iconSolid: Object,
+    iconOutline: Object,
     subLinks: Array,
     link: String,
 });
@@ -25,7 +26,7 @@ const toggleSubmenu = () => {
             @click="toggleSubmenu"
             class="flex items-center w-full my-4 text-left dark:text-[#B0B0B0] text-[#4B5660] hover:dark:text-[#6084FF] hover:text-[#3B5FBF] transition-colors"
         >
-            <component :is="icon" class="w-6 h-6 me-2" />
+            <component :is="isOpen ? props.iconSolid : props.iconOutline"" class="w-6 h-6 me-2" />
             <span>{{ title }}</span>
             <ChevronDownIcon
                 v-if="props.subLinks?.length"
