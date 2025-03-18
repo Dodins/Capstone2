@@ -77,7 +77,11 @@ import { Head } from "@inertiajs/vue3";
             <div class="h-full w-2/6 gap-4 flex flex-col">
                 <div
                     class="w-full h-1/2 dark:bg-[#3C4053] bg-[#DDE3E7] rounded-2xl p-4"
-                ></div>
+                >
+                    <div class="h-full w-full">
+                        <DashboardCalendar />
+                    </div>
+                </div>
                 <div
                     class="w-full h-1/2 dark:bg-[#3C4053] bg-[#DDE3E7] rounded-2xl px-4 pt-4 flex flex-col"
                 >

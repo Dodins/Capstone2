@@ -10,17 +10,14 @@ Route::get('/', function () {
     return Inertia::render('Landing');
 });
 
-Route::get('/login', function () {
-    return Inertia::render('Auth/Login');
-})->name('login');
-
-Route::get('/register', function () {
-    return Inertia::render('Auth/Register');
-})->name('register');
 
 
-Route::post('register', [AuthAdminController::class, 'store'])->name('register');
-Route::post('login', [AuthAdminController::class, 'authenticate'])->name('login');
+
+Route::get('register', [AuthAdminController::class, 'register'])->name('register');
+Route::get('login', [AuthAdminController::class, 'login'])->name('login');
+
+Route::post('register', [AuthAdminController::class, 'store'])->name('store');
+Route::post('login', [AuthAdminController::class, 'authenticate'])->name('authenticate');
 
 // ADMIN MIDDLEWARE
 Route::middleware(['auth', CheckIfAdmin::class])->group(function () {

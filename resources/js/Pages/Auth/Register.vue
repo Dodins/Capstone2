@@ -18,7 +18,7 @@ const submit = () => {
         form.errors.password_confirmation = "Passwords do not match.";
         return;
     }
-    form.post(route("register"), {
+    form.post(route("store"), {
         onFinish: () => form.reset("password", "password_confirmation"),
     });
 };
@@ -37,7 +37,6 @@ const submit = () => {
                     class="mt-1 block w-full"
                     v-model="form.name"
                     required
-                    autofocus
                     autocomplete="name"
                 />
 
