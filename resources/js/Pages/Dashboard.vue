@@ -1,13 +1,13 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import IncidentStatusOverview from "@/Components/Charts/IncidentStatusOverview.vue";
-import DashboardCalendar from "@/Components/DashboardCalendar.vue";
+import Map from "@/Components/Map.vue";
+import VerifiedUsersTable from "@/Components/Users/VerifiedUsersTable.vue";
 import HistoryReports from "@/Components/Charts/HistoryReports.vue";
 import DashboardHighReport from "@/Components/Reports/DashboardHighReport.vue";
 import DashboardMediumReport from "@/Components/Reports/DashboardMediumReport.vue";
 import DashboardLowReport from "@/Components/Reports/DashboardLowReport.vue";
 import DashboardVerifiedUsers from "@/Components/Users/DashboardVerifiedUsers.vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
 import { Head } from "@inertiajs/vue3";
 </script>
 
@@ -28,7 +28,7 @@ import { Head } from "@inertiajs/vue3";
             </div>
             <div class="h-full w-3/6 gap-4 flex flex-col">
                 <div
-                    class="w-full h-3/4 dark:bg-[#3C4053] bg-[#DDE3E7] rounded-2xl p-4 flex flex-col"
+                    class="w-full h-3/5 dark:bg-[#3C4053] bg-[#DDE3E7] rounded-2xl p-4 flex flex-col"
                 >
                     <div class="flex justify-between items-center">
                         <div>
@@ -71,16 +71,16 @@ import { Head } from "@inertiajs/vue3";
                     </div>
                 </div>
                 <div
-                    class="w-full h-2/4 dark:bg-[#3C4053] bg-[#DDE3E7] rounded-2xl p-4"
-                ></div>
+                    class="w-full h-2/5 dark:bg-[#3C4053] bg-[#DDE3E7] rounded-2xl px-4 pt-4"
+                >
+                    <VerifiedUsersTable />
+                </div>
             </div>
             <div class="h-full w-2/6 gap-4 flex flex-col">
                 <div
-                    class="w-full h-1/2 dark:bg-[#3C4053] bg-[#DDE3E7] rounded-2xl p-4"
+                    class="w-full h-1/2 dark:bg-[#3C4053] bg-[#DDE3E7] rounded-2xl overflow-hidden"
                 >
-                    <div class="h-full w-full">
-                        <DashboardCalendar />
-                    </div>
+                    <Map />
                 </div>
                 <div
                     class="w-full h-1/2 dark:bg-[#3C4053] bg-[#DDE3E7] rounded-2xl px-4 pt-4 flex flex-col"

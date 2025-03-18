@@ -70,7 +70,7 @@ const chartOptions = ref({
     layout: {
         padding: {
             top: 16,
-            bottom: 16,
+            bottom: 24,
         },
     },
     plugins: {

@@ -55,7 +55,7 @@ class VerificationResidentController extends Controller
             }
 
             $resident = Resident::create([
-                'user_id' => auth()->id(),
+                'user_id' => $user->id,
                 'full_name' => $request->full_name,
                 'gender' => $request->gender,
                 'phone_number' => $request->phone_number,

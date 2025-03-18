@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 use App\Http\Controllers\Admin\AuthAdminController;
+use App\Http\Controllers\Admin\ResidentAdminController;
 
 Route::get('/', function () {
     return Inertia::render('Landing');
@@ -31,7 +32,7 @@ Route::middleware(['auth', CheckIfAdmin::class])->group(function () {
     })->name('verification');
 
 
-
+    Route::get('verified-users', [ResidentAdminController::class, 'index'])->name('verified-users');
 
     Route::post('logout', [AuthAdminController::class, 'logout'])
         ->name('logout');
