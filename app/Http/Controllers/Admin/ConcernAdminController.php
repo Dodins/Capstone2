@@ -35,6 +35,7 @@ class ConcernAdminController extends Controller
         $data = [
             'concern_id' => $concern->id,
             'notes' => $request->notes,
+            'status' => $nextStatus,
             'auto_message' => "The concern is now transitioning from $currentStatus to $nextStatus.",
         ];
 

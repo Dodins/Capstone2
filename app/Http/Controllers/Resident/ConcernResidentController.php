@@ -133,6 +133,7 @@ class ConcernResidentController extends Controller
         ConcernStatusHistory::create([
             'concern_id' => $concern->id,
             'auto_message' => 'The resident has confirmed that the concern is complete.',
+            'status' => 'completed',
             'notes' => $request->notes,
         ]);
 

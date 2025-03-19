@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('notes');
             $table->string('img_proof')->nullable();
             $table->string('auto_message');
+            $table->enum('status', ['new', 'under_review', 'pending_action', 'resolved', 'completed', 'rejected']);
             $table->timestamps();
         });
     }

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->enum('role', ['resident', 'admin'])->nullable();
-            $table->boolean('isVerified')->default(false);
+            $table->boolean('is_verified')->default(false);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('otp')->nullable();
