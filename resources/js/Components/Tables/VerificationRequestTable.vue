@@ -56,10 +56,27 @@ const goToPage = (page) => {
 
 const openImageView = (imageUrl) => {
     selectedImage.value = `${hostUrl}/${imageUrl}`;
-    console.log("the image url is:", selectedImage.value);
 };
 
-console.log(selectedImage);
+const handleAccept = async (id) => {
+    try {
+        await axios.put(`/accept-verification/${id}/accept`);
+        fetchResidents();
+    } catch (error) {
+        console.error("Error accepting resident:", error);
+        alert("Failed to accept resident.");
+    }
+};
+
+const handleReject = async (id) => {
+    try {
+        await axios.put(`/reject-verification/${id}/reject`);
+        fetchResidents();
+    } catch (error) {
+        console.error("Error rejecting resident:", error);
+        alert("Failed to reject resident.");
+    }
+};
 </script>
 
 <template>
@@ -110,7 +127,9 @@ console.log(selectedImage);
                         </th>
                         <th
                             class="w-2/18 py-2 px-2 text-[14px] dark:text-[#EEEEEE] text-[#222831] text-center rounded-tr-xl rounded-br-xl dark:bg-[#3C4053] bg-[#DDE3E7]"
-                        > Action</th>
+                        >
+                            Action
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -173,11 +192,13 @@ console.log(selectedImage);
                             class="text-center py-1 px-2 text-[14px] dark:text-[#EEEEEE] text-[#222831]"
                         >
                             <button
+                                @click="handleAccept(resident.id)"
                                 class="dark:text-[#6084FF] text-[#3B5FBF] text-[14px] me-2 font-bold hover:dark:text-[#4D6ACC] hover:text-[#2F4C99] cursor-pointer"
                             >
                                 Accept
                             </button>
                             <button
+                                @click="handleReject(resident.id)"
                                 class="dark:text-[#EEEEEE] text-[#222831] text-[14px] font-bold hover:dark:text-[#DDDDDD] hover:text-[#000000] cursor-pointer"
                             >
                                 Reject
