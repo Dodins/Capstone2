@@ -2,12 +2,12 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import IncidentStatusOverview from "@/Components/Charts/IncidentStatusOverview.vue";
 import Map from "@/Components/Map.vue";
-import VerifiedUsersTable from "@/Components/Users/VerifiedUsersTable.vue";
+import VerifiedUsersTable from "@/Components/Tables/VerifiedUsersTable.vue";
 import HistoryReports from "@/Components/Charts/HistoryReports.vue";
 import DashboardHighReport from "@/Components/Reports/DashboardHighReport.vue";
 import DashboardMediumReport from "@/Components/Reports/DashboardMediumReport.vue";
 import DashboardLowReport from "@/Components/Reports/DashboardLowReport.vue";
-import DashboardVerifiedUsers from "@/Components/Users/DashboardVerifiedUsers.vue";
+import DashboardVerifiedUsers from "@/Components/Reports/DashboardVerifiedUsers.vue";
 import { Head } from "@inertiajs/vue3";
 </script>
 
