@@ -9,6 +9,30 @@ use Illuminate\Http\Request;
 
 class ConcernAdminController extends Controller
 {
+    public function setPriority(Request $request, $id)
+    {
+        $request->validate([
+            'priority' => 'required|in:low,medium,high',
+        ]);
+
+        $concern = Concern::findOrFail($id);
+
+        $concern->update([
+            'priority' => $request->priority,
+            'status' => 'new',
+        ]);
+
+        $getNote =  ConcernStatusHistory::create([
+            'concern_id' => $concern->id,
+            'notes' => 'Concern accepted and set the priority to ' . $request->priority,
+            'status' => 'new',
+        ]);
+
+        return response()->json([
+            'message' => $getNote->notes,
+        ]);
+    }
+
     public function updateStatus(Request $request, $id)
     {
         $request->validate([
@@ -36,7 +60,6 @@ class ConcernAdminController extends Controller
             'concern_id' => $concern->id,
             'notes' => $request->notes,
             'status' => $nextStatus,
-            'auto_message' => "The concern is now transitioning from $currentStatus to $nextStatus.",
         ];
 
         if ($nextStatus === 'resolved') {
@@ -53,6 +76,24 @@ class ConcernAdminController extends Controller
 
         return response()->json([
             'concern' => $concernUpdate,
+        ]);
+    }
+
+    public function reject($id)
+    {
+
+        $concern = Concern::findOrFail($id);
+
+        $concern->update(['status' => 'rejected']);
+
+        ConcernStatusHistory::create([
+            'concern_id' => $concern->id,
+            'status' => 'rejected',
+            'notes' => 'This concern is being rejected due to insufficient information provided.',
+        ]);
+
+        return response()->json([
+            'message' => 'Concern has been rejected successfully.',
         ]);
     }
 }
