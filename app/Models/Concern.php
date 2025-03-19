@@ -13,4 +13,9 @@ class Concern extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function concernStatusHistories()
+    {
+        return $this->hasMany(ConcernStatusHistory::class);
+    }
 }

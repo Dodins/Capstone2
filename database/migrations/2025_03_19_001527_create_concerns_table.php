@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->string('location');
-            $table->string('description');
+            $table->text('description');
             $table->string('evidence');
             $table->enum('status', ['new', 'under_review', 'pending_action', 'resolved', 'completed', 'rejected'])->nullable();
             $table->enum('priority', ['low', 'medium', 'high'])->nullable();
-            $table->enum('resident_confirmation', ['pending', 'accepeted', 'rejected'])->default('pending');
+            $table->enum('resident_confirmation', ['pending', 'accepted', 'rejected'])->default('pending');
             $table->timestamps();
         });
     }

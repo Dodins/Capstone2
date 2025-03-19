@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ConcernAdminController;
 use App\Http\Controllers\Admin\VerificationAdminController;
 use App\Http\Controllers\Resident\AnnouncementResidentController;
 use App\Http\Controllers\Resident\AuthResidentController;
@@ -25,6 +26,9 @@ Route::middleware(['auth:sanctum', CheckIfResident::class])->group(function () {
     Route::get('/announcements', [AnnouncementResidentController::class, 'index']);
     Route::post('/submit-verification', [VerificationResidentController::class, 'store']);
     Route::get('/existing-verification', [VerificationResidentController::class, 'index']);
+
+    // CONCERN COMPLETED CONFIRMATION
+    Route::post('/resolved/{id}', [ConcernResidentController::class, 'resolvedToComplete']);
 });
 
 // VERIFIED RESIDENT
@@ -47,3 +51,4 @@ Route::middleware(['auth:sanctum', CheckIfVerifiedResident::class])->group(funct
 Route::post('/accept-verification/{id}/accept', [VerificationAdminController::class, 'accept']);
 Route::post('/accept-verification/{id}/reject', [VerificationAdminController::class, 'reject']);
 Route::get('/unverifiedResident', [VerificationAdminController::class, 'unverifiedResidents']);
+Route::post('/change-status/{id}', [ConcernAdminController::class, 'updateStatus']);
