@@ -8,10 +8,24 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Illuminate\Http\RedirectResponse;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class AuthAdminController extends Controller
 {
-    public function authenticate(Request $request)
+
+    public function register(): Response
+    {
+        return Inertia::render('Auth/Register');
+    }
+
+    public function login(): Response
+    {
+        return Inertia::render('Auth/Login');
+    }
+
+    public function authenticate(Request $request) : RedirectResponse
     {
         $credentials = $request->validate([
             'email' => ['required', 'email'],
@@ -45,7 +59,7 @@ class AuthAdminController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(Request $request) : RedirectResponse
     {
         $request->validate([
             'name' => 'required|string|max:255',

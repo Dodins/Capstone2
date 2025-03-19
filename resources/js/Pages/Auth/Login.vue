@@ -23,7 +23,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post(route("login"), {
+    form.post(route("authenticate"), {
         onFinish: () => form.reset("password"),
     });
 };
@@ -47,7 +47,6 @@ const submit = () => {
                     class="mt-1 block w-full"
                     v-model="form.email"
                     required
-                    autofocus
                     autocomplete="username"
                 />
 
@@ -69,7 +68,7 @@ const submit = () => {
                 <InputError class="mt-2" :message="form.errors.password" />
             </div>
 
-            <div class="mt-4 block flex justify-between">
+            <div class="mt-4 flex justify-between">
                 <label class="flex items-center">
                     <Checkbox name="remember" v-model:checked="form.remember" />
                     <span
@@ -100,9 +99,9 @@ const submit = () => {
                     Don't have an account yet?
                 </h1>
                 <Link
-                    :href="route('login')"
-                    class="dark:text-[#EEEEEE] text-[#222831] text-[16px] hover:dark:text-[#6084FF] hover:dark:text-[#3B5FBF] underline"
-                >
+                    :href="route('register')"
+                    class="dark:text-[#6084FF] text-[#3B5FBF] hover:underline"
+                    >
                     Register
                 </Link>
             </div>

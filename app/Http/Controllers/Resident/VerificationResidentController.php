@@ -47,16 +47,19 @@ class VerificationResidentController extends Controller
         ]);
 
         $user = auth()->user();
+        $imagePath = null;
 
         if(!$user->resident)
         {
-            if($request->hasFile('barangay_id_image')){
-                $imagePath = $request->file('barangay_id_image')->store('barangay_ids', 'public');
+            if ($request->hasFile('barangay_id_image')) {
+                $path = $request->file('barangay_id_image')->store('barangay_ids', 'public');
+                $imagePath = 'storage/' . $path;
             }
 
             $resident = Resident::create([
-                'user_id' => auth()->id(),
+                'user_id' => $user->id,
                 'full_name' => $request->full_name,
+                'email' => $user->email,
                 'gender' => $request->gender,
                 'phone_number' => $request->phone_number,
                 'address' => $request->address,

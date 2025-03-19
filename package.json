@@ -15,9 +15,20 @@
     },
     "dependencies": {
         "@fontsource/quicksand": "^5.2.5",
+        "@fullcalendar/core": "^6.1.15",
+        "@fullcalendar/daygrid": "^6.1.15",
+        "@fullcalendar/interaction": "^6.1.15",
+        "@fullcalendar/timegrid": "^6.1.15",
+        "@fullcalendar/vue3": "^6.1.15",
         "@heroicons/vue": "^2.2.0",
         "@inertiajs/vue3": "^2.0.5",
+        "@maptiler/sdk": "^3.0.1",
         "@vitejs/plugin-vue": "^5.2.1",
-        "vue": "^3.5.13"
+        "chart.js": "^4.4.8",
+        "chartjs-plugin-datalabels": "^2.2.0",
+        "leaflet": "^1.9.4",
+        "vue": "^3.5.13",
+        "vue-chartjs": "^5.3.2",
+        "vue-leaflet": "^0.1.0"
     }
 }

@@ -9,7 +9,7 @@ import { Head, Link } from "@inertiajs/vue3";
     <Head title="Welcome" />
     <div class="h-screen w-screen dark:bg-[#2C2F40] bg-[#EAEFF2]">
         <nav
-            class="dark:bg-[#3C4053] bg-[#DDE3E7] flex justify-between py-3 px-32"
+            class="dark:bg-[#3C4053] bg-[#DDE3E7] flex justify-between py-3 xl:px-20 lg:px-16 md:px-10"
         >
             <div class="flex items-center">
                 <Link href="/">

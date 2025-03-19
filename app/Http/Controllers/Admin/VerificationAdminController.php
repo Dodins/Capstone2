@@ -10,7 +10,7 @@ class VerificationAdminController extends Controller
 {
     public function unverifiedResidents()
     {
-        $residents = Resident::where('is_verified', false)->where('application_status', 'pending')->get();
+        $residents = Resident::where('is_verified', false)->where('application_status', 'pending')->paginate(20);
 
         if($residents->isEmpty()){
             return response()->json(
