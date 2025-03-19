@@ -1,7 +1,6 @@
 <script setup>
 import { ref, computed, watch, onMounted } from "vue";
 import axios from "axios";
-import Checkbox from "@/Components/Checkbox.vue";
 import ImageView from "@/Components/ImageView.vue";
 
 const hostUrl = "http://127.0.0.1:8000";
@@ -72,7 +71,7 @@ console.log(selectedImage);
                         <th
                             class="w-1/18 py-2 px-2 text-[14px] dark:text-[#EEEEEE] text-[#222831] text-center rounded-tl-xl rounded-bl-xl dark:bg-[#3C4053] bg-[#DDE3E7]"
                         >
-                            <Checkbox />
+                            •
                         </th>
                         <th
                             class="w-2/18 py-2 px-2 text-[14px] dark:text-[#EEEEEE] text-[#222831] text-start dark:bg-[#3C4053] bg-[#DDE3E7]"
@@ -110,8 +109,8 @@ console.log(selectedImage);
                             Proof of IDs
                         </th>
                         <th
-                            class="w-2/18 py-2 px-2 text-[14px] dark:text-[#EEEEEE] text-[#222831] text-start rounded-tr-xl rounded-br-xl dark:bg-[#3C4053] bg-[#DDE3E7]"
-                        ></th>
+                            class="w-2/18 py-2 px-2 text-[14px] dark:text-[#EEEEEE] text-[#222831] text-center rounded-tr-xl rounded-br-xl dark:bg-[#3C4053] bg-[#DDE3E7]"
+                        > Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -119,7 +118,7 @@ console.log(selectedImage);
                         <td
                             class="text-center py-1 px-2 text-[14px] dark:text-[#EEEEEE] text-[#222831] overflow-hidden whitespace-nowrap text-ellipsis"
                         >
-                            <Checkbox />
+                            •
                         </td>
                         <td
                             class="text-start py-1 px-2 text-[14px] dark:text-[#EEEEEE] text-[#222831] overflow-hidden whitespace-nowrap text-ellipsis"
@@ -158,14 +157,14 @@ console.log(selectedImage);
                             {{ resident.gender }}
                         </td>
                         <td
-                            class="text-start py-1 px-2 text-[14px] text-[#EEEEEE]"
+                            class="text-start py-1 px-2 text-[14px] text-[#EEEEEE] cursor-pointer"
                             :title="resident.barangay_id_image"
                         >
                             <div
                                 @click="
                                     openImageView(resident.barangay_id_image)
                                 "
-                                class="dark:bg-[#6084FF] bg-[#3B5FBF] rounded-full overflow-hidden whitespace-nowrap text-ellipsis py-1 px-2"
+                                class="hover:dark:bg-[#4D6ACC] hover:bg-[#2F4C99] dark:bg-[#6084FF] bg-[#3B5FBF] rounded-full overflow-hidden whitespace-nowrap text-ellipsis py-1 px-2"
                             >
                                 {{ resident.barangay_id_image }}
                             </div>

@@ -12,10 +12,8 @@ import { Head } from "@inertiajs/vue3";
             <h2 class="">User verification</h2>
         </template>
         <div class="flex flex-col w-full h-full pt-4">
-            <div class="h-1/10 flex justify-between items-center ">
-                <div
-                    class="px-4 py-2 dark:bg-[#3C4053] bg-[#DDE3E7] rounded-2xl"
-                >
+            <div class="h-1/10 flex justify-between items-center">
+                <div class="px-4 py-2 rounded-2xl">
                     <h1 class="dark:text-[#EEEEEE] text-[#222831] font-bold">
                         Verification Request
                     </h1>
@@ -24,7 +22,9 @@ import { Head } from "@inertiajs/vue3";
                     </h1>
                 </div>
                 <div class="">
-                    <h1 class="dark:text-[#EEEEEE] text-[#222831] font-bold">Icon search</h1>
+                    <h1 class="dark:text-[#EEEEEE] text-[#222831] font-bold">
+                        Icon search
+                    </h1>
                 </div>
             </div>
             <div class="h-9/10 w-full pt-4">
