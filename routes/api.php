@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\VerificationAdminController;
 use App\Http\Controllers\Resident\AnnouncementResidentController;
 use App\Http\Controllers\Resident\AuthResidentController;
+use App\Http\Controllers\Resident\ConcernResidentController;
 use App\Http\Controllers\Resident\VerificationResidentController;
 use App\Http\Middleware\CheckIfResident;
 use App\Http\Middleware\CheckIfVerifiedResident;
@@ -21,13 +22,9 @@ Route::post('/reset-password', [AuthResidentController::class, 'resetPassword'])
 Route::middleware(['auth:sanctum', CheckIfResident::class])->group(function () {
 
     Route::post('/logout', [AuthResidentController::class, 'destroy']);
-    Route::get('/announcements', [AnnouncementResidentController::class,'index']);
+    Route::get('/announcements', [AnnouncementResidentController::class, 'index']);
     Route::post('/submit-verification', [VerificationResidentController::class, 'store']);
     Route::get('/existing-verification', [VerificationResidentController::class, 'index']);
-
-
-
-
 });
 
 // VERIFIED RESIDENT
@@ -35,6 +32,8 @@ Route::middleware(['auth:sanctum', CheckIfVerifiedResident::class])->group(funct
 
     //ROUTES FOR VERIFIED RESIDENT
 
+    // CONCERN
+    Route::apiResource('concerns', ConcernResidentController::class);
 });
 
 
@@ -48,12 +47,3 @@ Route::middleware(['auth:sanctum', CheckIfVerifiedResident::class])->group(funct
 Route::post('/accept-verification/{id}/accept', [VerificationAdminController::class, 'accept']);
 Route::post('/accept-verification/{id}/reject', [VerificationAdminController::class, 'reject']);
 Route::get('/unverifiedResident', [VerificationAdminController::class, 'unverifiedResidents']);
-
-
-
-
-
-
-
-
-
