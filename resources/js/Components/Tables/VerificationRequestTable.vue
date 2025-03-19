@@ -1,7 +1,6 @@
 <script setup>
 import { ref, computed, watch, onMounted } from "vue";
 import axios from "axios";
-import Checkbox from "@/Components/Checkbox.vue";
 import ImageView from "@/Components/ImageView.vue";
 
 const hostUrl = "http://127.0.0.1:8000";
@@ -57,10 +56,27 @@ const goToPage = (page) => {
 
 const openImageView = (imageUrl) => {
     selectedImage.value = `${hostUrl}/${imageUrl}`;
-    console.log("the image url is:", selectedImage.value);
 };
 
-console.log(selectedImage);
+const handleAccept = async (id) => {
+    try {
+        await axios.put(`/accept-verification/${id}/accept`);
+        fetchResidents();
+    } catch (error) {
+        console.error("Error accepting resident:", error);
+        alert("Failed to accept resident.");
+    }
+};
+
+const handleReject = async (id) => {
+    try {
+        await axios.put(`/reject-verification/${id}/reject`);
+        fetchResidents();
+    } catch (error) {
+        console.error("Error rejecting resident:", error);
+        alert("Failed to reject resident.");
+    }
+};
 </script>
 
 <template>
@@ -72,7 +88,7 @@ console.log(selectedImage);
                         <th
                             class="w-1/18 py-2 px-2 text-[14px] dark:text-[#EEEEEE] text-[#222831] text-center rounded-tl-xl rounded-bl-xl dark:bg-[#3C4053] bg-[#DDE3E7]"
                         >
-                            <Checkbox />
+                            •
                         </th>
                         <th
                             class="w-2/18 py-2 px-2 text-[14px] dark:text-[#EEEEEE] text-[#222831] text-start dark:bg-[#3C4053] bg-[#DDE3E7]"
@@ -110,8 +126,10 @@ console.log(selectedImage);
                             Proof of IDs
                         </th>
                         <th
-                            class="w-2/18 py-2 px-2 text-[14px] dark:text-[#EEEEEE] text-[#222831] text-start rounded-tr-xl rounded-br-xl dark:bg-[#3C4053] bg-[#DDE3E7]"
-                        ></th>
+                            class="w-2/18 py-2 px-2 text-[14px] dark:text-[#EEEEEE] text-[#222831] text-center rounded-tr-xl rounded-br-xl dark:bg-[#3C4053] bg-[#DDE3E7]"
+                        >
+                            Action
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -119,7 +137,7 @@ console.log(selectedImage);
                         <td
                             class="text-center py-1 px-2 text-[14px] dark:text-[#EEEEEE] text-[#222831] overflow-hidden whitespace-nowrap text-ellipsis"
                         >
-                            <Checkbox />
+                            •
                         </td>
                         <td
                             class="text-start py-1 px-2 text-[14px] dark:text-[#EEEEEE] text-[#222831] overflow-hidden whitespace-nowrap text-ellipsis"
@@ -158,14 +176,14 @@ console.log(selectedImage);
                             {{ resident.gender }}
                         </td>
                         <td
-                            class="text-start py-1 px-2 text-[14px] text-[#EEEEEE]"
+                            class="text-start py-1 px-2 text-[14px] text-[#EEEEEE] cursor-pointer"
                             :title="resident.barangay_id_image"
                         >
                             <div
                                 @click="
                                     openImageView(resident.barangay_id_image)
                                 "
-                                class="dark:bg-[#6084FF] bg-[#3B5FBF] rounded-full overflow-hidden whitespace-nowrap text-ellipsis py-1 px-2"
+                                class="hover:dark:bg-[#4D6ACC] hover:bg-[#2F4C99] dark:bg-[#6084FF] bg-[#3B5FBF] rounded-full overflow-hidden whitespace-nowrap text-ellipsis py-1 px-2"
                             >
                                 {{ resident.barangay_id_image }}
                             </div>
@@ -174,11 +192,13 @@ console.log(selectedImage);
                             class="text-center py-1 px-2 text-[14px] dark:text-[#EEEEEE] text-[#222831]"
                         >
                             <button
+                                @click="handleAccept(resident.id)"
                                 class="dark:text-[#6084FF] text-[#3B5FBF] text-[14px] me-2 font-bold hover:dark:text-[#4D6ACC] hover:text-[#2F4C99] cursor-pointer"
                             >
                                 Accept
                             </button>
                             <button
+                                @click="handleReject(resident.id)"
                                 class="dark:text-[#EEEEEE] text-[#222831] text-[14px] font-bold hover:dark:text-[#DDDDDD] hover:text-[#000000] cursor-pointer"
                             >
                                 Reject

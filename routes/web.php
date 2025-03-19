@@ -34,7 +34,7 @@ Route::middleware(['auth', CheckIfAdmin::class])->group(function () {
 
 
     // ----------------- VERIFICATION OF USER ----------------- //
-    Route::post('/accept-verification/{id}/accept', [VerificationAdminController::class, 'accept'])->name('acceptVerification');
-    Route::post('/accept-verification/{id}/reject', [VerificationAdminController::class, 'reject'])->name('rejectVerification');
+    Route::put('/accept-verification/{id}/accept', [VerificationAdminController::class, 'accept'])->name('acceptVerification');
+    Route::put('/reject-verification/{id}/reject', [VerificationAdminController::class, 'reject'])->name('rejectVerification');
     Route::get('/unverifiedResident', [VerificationAdminController::class, 'unverifiedResidents'])->name('unverified.resident');
 });

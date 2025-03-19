@@ -1,6 +1,4 @@
 <script setup>
-import { defineProps, defineEmits } from "vue";
-
 const props = defineProps({
     imageSrc: String,
     show: Boolean,
@@ -18,18 +16,20 @@ const close = () => {
         v-if="show"
         class="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
     >
-        <div class="bg-white rounded-lg p-4 max-w-lg w-full relative">
+        <div class="dark:bg-[#3C4053] bg-[#DDE3E7] p-4 rounded-lg relative">
             <button
                 @click="close"
-                class="absolute top-2 right-2 text-gray-600 hover:text-gray-900"
+                class="absolute top-2 right-2 dark:text-[#EEEEEE] text-[#222831] hover:text-gray-900 cursor-pointer"
             >
-                ✕
+                <i class="fa-solid fa-xmark"></i>
             </button>
-            <img
-                :src="imageSrc"
-                alt="Resident Image"
-                class="w-full h-auto rounded-lg"
-            />
+            <div class="mt-4">
+                <img
+                    :src="imageSrc"
+                    alt="Resident Image"
+                    class="w-[716px] h-[600px] rounded-lg"
+                />
+            </div>
         </div>
     </div>
 </template>
