@@ -3,6 +3,18 @@ import { ref, watchEffect, onMounted, onUnmounted, markRaw } from "vue";
 import { Map, config } from "@maptiler/sdk";
 import "@maptiler/sdk/dist/maptiler-sdk.css";
 
+const props = defineProps({
+    disableClicks: Boolean,
+});
+
+const handleClick = () => {
+    if (props.disableClicks) {
+        console.log("Click event disabled on this page.");
+        return;
+    }
+    console.log("Function executed!");
+};
+
 const mapContainer = ref(null);
 const map = ref(null);
 const darkMode = ref(window.matchMedia("(prefers-color-scheme: dark)").matches);
@@ -28,6 +40,21 @@ const initializeMap = () => {
             fullscreenControl: false,
         })
     );
+    map.value.on("click", getLatLng);
+};
+
+const getLatLng = (event) => {
+    if (props.disableClicks) {
+        return;
+    }
+    if (!event.lngLat) {
+        console.error("Event does not contain lngLat data:", event);
+        return;
+    }
+    const { lng, lat } = event.lngLat;
+    console.log(
+        `You clicked the map at latitude: ${lat} and longitude: ${lng}`
+    );
 };
 
 onMounted(() => {
@@ -43,7 +70,10 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-    map.value?.remove();
+    if (map.value) {
+        map.value.off("click", getLatLng);
+        map.value.remove();
+    }
 });
 </script>
 

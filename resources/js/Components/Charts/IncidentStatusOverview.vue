@@ -77,7 +77,7 @@ const chartOptions = ref({
         legend: {
             display: true,
             position: "left",
-            align: "center",
+            align: "end",
             fullSize: false,
             labels: {
                 usePointStyle: true,

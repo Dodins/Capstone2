@@ -1,9 +1,10 @@
 <script setup>
-import { ref, computed, watch, onMounted } from "vue";
+import { ref, computed, watch, onMounted, getCurrentInstance } from "vue";
 import axios from "axios";
 import ImageView from "@/Components/ImageView.vue";
 
-const hostUrl = "http://127.0.0.1:8000";
+const { proxy } = getCurrentInstance();
+const hostUrl = proxy.$hostUrl;
 const currentPage = ref(1);
 const itemsPerPage = ref(10);
 const totalPages = ref(1);

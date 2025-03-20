@@ -26,6 +26,15 @@ Route::middleware(['auth', CheckIfAdmin::class])->group(function () {
     Route::get('/verification', function () {
         return Inertia::render('UserVerification');
     })->name('verification');
+    Route::get('/calendar', function () {
+        return Inertia::render('Calendar');
+    })->name('calendar');
+    Route::get('/map', function () {
+        return Inertia::render('MapMain');
+    })->name('map');
+    Route::get('/announcement', function () {
+        return Inertia::render('Announcement');
+    })->name('announcement');
 
     Route::post('logout', [AuthAdminController::class, 'logout'])->name('logout');
 

@@ -20,7 +20,7 @@ const fetchUsers = async () => {
 
         // Mocking users (avoiding duplicate additions)
         if (allUsers.value.length === 0) {
-            for (let i = 1; i <= 50; i++) {
+            for (let i = 1; i <= 10; i++) {
                 allUsers.value.push({
                     id: i,
                     name: `John Brandon Lambino ${i}`,
@@ -81,14 +81,11 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div class="h-full flex flex-col w-full">
-        <h1 class="dark:text-[#EEEEEE] text-[#222831] font-bold mb-2">
-            Verified Users
-        </h1>
+    <div class="h-full w-full">
         <div
-            class="overflow-y-auto h-full no-scrollbar"
+            class="overflow-y-auto no-scrollbar flex-grow min-h-0 max-h-[calc(100vh-590px)]"
         >
-            <table class="table-auto h-[400px] max-h-full w-full">
+            <table class="table-fixed w-full">
                 <thead class="sticky top-0 dark:bg-[#3C4053] bg-[#DDE3E7]">
                     <tr>
                         <th
