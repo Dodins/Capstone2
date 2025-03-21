@@ -1,22 +1,32 @@
 <script setup>
-import { ref, onMounted, nextTick } from "vue";
-import axios from "axios";
+import DeleteConfirmation from "@/Components/Modal/DeleteConfirmation.vue";
+import { defineProps, ref } from "vue";
+import { router } from "@inertiajs/vue3";
 
-const announcements = ref([]);
+const props = defineProps({
+    announcements: Array,
+});
 
-for (let i = 1; i <= 12; i++) {
-    announcements.value.push({
-        id: i,
-        title: `Barangay Clean-Up Drive Scheduled for This Weekend`,
-        description: `Join us for a clean-up drive this Saturday, January 27, 2025, at 7:00 AM. Meet at the Barangay Hall. Gloves and cleaning supplies will be provided. Let's keep our community clean!`,
-        date: `January 21, 2025`,
-    });
-}
+const showDeleteConfirmation = ref(false);
+const announcementId = ref(null);
+
+const navigateToEditAnnouncement = (id) => {
+    router.visit(route("announcement.edit", { id }));
+};
+
+const openDeleteModal = (id) => {
+    announcementId.value = id;
+    showDeleteConfirmation.value = true;
+};
+
+const closeDeleteModal = () => {
+    showDeleteConfirmation.value = false;
+};
 </script>
 
 <template>
     <div
-        class="w-full dark:bg-[#3C4053] bg-[#DDE3E7] overflow-hidden rounded-xl"
+        class="h-full w-full overflow-hidden rounded-xl border-2 dark:border-[#3C4053] border-[#DDE3E7]"
     >
         <div
             class="overflow-y-auto no-scrollbar flex-grow min-h-0 max-h-[calc(100vh-239px)]"
@@ -46,37 +56,43 @@ for (let i = 1; i <= 12; i++) {
                 </thead>
                 <tbody>
                     <tr
-                        v-for="announcement in announcements"
+                        v-for="announcement in props.announcements"
                         :key="announcement.id"
                     >
                         <td
-                            class="w-3/10 pe-4 pb-4 pt-2 px-6 text-start align-top dark:text-[#EEEEEE] text-[#222831]"
+                            class="border-b-2 dark:border-[#3C4053] border-[#DDE3E7] w-3/10 pe-4 pb-4 pt-2 px-6 text-start align-top dark:text-[#EEEEEE] text-[#222831]"
                         >
                             {{ announcement.title }}
                         </td>
                         <td
-                            class="w-3/10 pe-4 pb-4 pt-2 px-6 text-start dark:text-[#EEEEEE] text-[#222831]"
+                            class="border-b-2 dark:border-[#3C4053] border-[#DDE3E7] w-3/10 pe-4 pb-4 pt-2 px-6 text-start align-top dark:text-[#EEEEEE] text-[#222831]"
                         >
                             {{ announcement.description }}
                         </td>
                         <td
-                            class="w-3/10 pe-4 pb-4 pt-2 px-6 align-top text-start dark:text-[#EEEEEE] text-[#222831]"
+                            class="border-b-2 dark:border-[#3C4053] border-[#DDE3E7] w-3/10 pe-4 pb-4 pt-2 px-6 align-top text-start dark:text-[#EEEEEE] text-[#222831]"
                         >
-                            {{ announcement.date }}
+                            {{ announcement.created_at }}
                         </td>
                         <td
-                            class="w-1/10 pb-4 pt-2 text-center dark:text-[#EEEEEE] text-[#222831]"
+                            class="border-b-2 dark:border-[#3C4053] border-[#DDE3E7] w-1/10 pb-4 pt-2 text-center dark:text-[#EEEEEE] text-[#222831]"
                         >
                             <div class="flex gap-4 items-center justify-center">
                                 <button
-                                    class="dark:bg-[#6084FF] bg-[#3B5FBF] outline-2 dark:outline-[#6084FF] outline-[#3B5FBF] py-3 px-4 rounded-xl hover:dark:bg-[#4D6ACC] hover:bg-[#2F4C99] hover:outline-[#2F4C99] hover:dark:outline-[#4D6ACC] text-[#3B5FBF]"
+                                    @click="
+                                        navigateToEditAnnouncement(
+                                            announcement.id
+                                        )
+                                    "
+                                    class="cursor-pointer dark:bg-[#6084FF] bg-[#3B5FBF] outline-2 dark:outline-[#6084FF] outline-[#3B5FBF] py-3 px-4 rounded-xl hover:dark:bg-[#4D6ACC] hover:bg-[#2F4C99] hover:outline-[#2F4C99] hover:dark:outline-[#4D6ACC] text-[#3B5FBF]"
                                 >
                                     <i
                                         class="fa-solid fa-pen text-[#EEEEEE]"
                                     ></i>
                                 </button>
                                 <button
-                                    class="outline-2 dark:outline-[#6084FF] outline-[#3B5FBF] py-3 px-4 rounded-xl hover:dark:bg-[#4D6ACC] hover:bg-[#2F4C99] hover:dark:outline-[#4D6ACC] hover:outline-[#2F4C99] text-[#3B5FBF] dark:text-[#6084FF] hover:text-[#EEEEEE]"
+                                    @click="openDeleteModal(announcement.id)"
+                                    class="cursor-pointer outline-2 dark:outline-[#6084FF] outline-[#3B5FBF] py-3 px-4 rounded-xl hover:dark:bg-[#4D6ACC] hover:bg-[#2F4C99] hover:dark:outline-[#4D6ACC] hover:outline-[#2F4C99] text-[#3B5FBF] dark:text-[#6084FF] hover:text-[#EEEEEE]"
                                 >
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
@@ -87,4 +103,12 @@ for (let i = 1; i <= 12; i++) {
             </table>
         </div>
     </div>
+    <DeleteConfirmation
+        :id="announcementId"
+        :title="'Delete Announcement!'"
+        :message="'Are you sure you want to delete this announcement?'"
+        :show="showDeleteConfirmation"
+        :type="'announcement'"
+        @close="closeDeleteModal"
+    />
 </template>

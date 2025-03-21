@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, watch, onMounted, getCurrentInstance } from "vue";
 import axios from "axios";
-import ImageView from "@/Components/ImageView.vue";
+import ImageView from "@/Components/Modal/ImageView.vue";
 
 const { proxy } = getCurrentInstance();
 const hostUrl = proxy.$hostUrl;

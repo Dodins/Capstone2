@@ -112,7 +112,7 @@ import {
                     </NavLink>
                     <NavLink
                         :href="route('announcement')"
-                        :active="route().current('announcement')"
+                        :active="route().current().startsWith('announcement')"
                         :iconSolid="MegaphoneIcon"
                         :iconOutline="MegaphoneIconOutline"
                         class="hover:dark:text-[#6084FF] hover:text-[#3B5FBF] transition-colors"

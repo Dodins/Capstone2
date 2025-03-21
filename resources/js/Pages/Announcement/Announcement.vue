@@ -2,7 +2,11 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import AnnouncementTable from "@/Components/Tables/AnnouncementTable.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
-import { Head } from "@inertiajs/vue3";
+import { Head, router } from "@inertiajs/vue3";
+
+const props = defineProps({
+    announcements: Array,
+});
 </script>
 
 <template>
@@ -72,11 +76,15 @@ import { Head } from "@inertiajs/vue3";
                             Update the Community with Important Notices
                         </p>
                     </div>
-                    <PrimaryButton>Add announcement</PrimaryButton>
+                    <PrimaryButton
+                        @click="router.visit(route('announcement.create'))"
+                    >
+                        Add announcement
+                    </PrimaryButton>
                 </div>
             </div>
             <div class="h-14/16 w-full">
-                <AnnouncementTable />
+                <AnnouncementTable :announcements="props.announcements" />
             </div>
         </div>
     </AuthenticatedLayout>

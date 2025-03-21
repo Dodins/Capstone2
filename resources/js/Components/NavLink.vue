@@ -29,7 +29,7 @@ const classes = computed(() =>
 
 <template>
     <Link :href="href" :class="classes">
-        <component :is="props.active ? iconSolid : iconOutline""
+        <component :is="props.active ? iconSolid : iconOutline"
         class="w-6 h-6 me-2" />
         <slot />
     </Link>

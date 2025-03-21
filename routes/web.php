@@ -6,6 +6,7 @@ use Inertia\Inertia;
 
 use App\Http\Controllers\Admin\AuthAdminController;
 use App\Http\Controllers\Admin\VerificationAdminController;
+use App\Http\Controllers\Admin\AnnouncementAdminController;
 
 Route::get('/', function () {
     return Inertia::render('Landing');
@@ -32,14 +33,17 @@ Route::middleware(['auth', CheckIfAdmin::class])->group(function () {
     Route::get('/map', function () {
         return Inertia::render('MapMain');
     })->name('map');
-    Route::get('/announcement', function () {
-        return Inertia::render('Announcement');
-    })->name('announcement');
 
     Route::post('logout', [AuthAdminController::class, 'logout'])->name('logout');
 
 
-
+    // ----------------- ANNOUNCEMENT ----------------- //
+    Route::get('/announcement', [AnnouncementAdminController::class, 'index'])->name('announcement');
+    Route::get('/announcement/create', [AnnouncementAdminController::class, 'createAnnouncement'])->name('announcement.create');
+    Route::post('/announcement/create', [AnnouncementAdminController::class, 'store'])->name('announcement.store');
+    Route::get('/announcement/edit/{id}', [AnnouncementAdminController::class, 'editAnnouncement'])->name('announcement.edit');
+    Route::post('/announcement/edit/{id}', [AnnouncementAdminController::class, 'update'])->name('announcement.update');
+    Route::delete('/announcement/destroy/{id}', [AnnouncementAdminController::class, 'destroy'])->name('announcement.destroy');
 
 
     // ----------------- VERIFICATION OF USER ----------------- //
