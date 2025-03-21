@@ -24,9 +24,6 @@ Route::middleware(['auth', CheckIfAdmin::class])->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
-    Route::get('/verification', function () {
-        return Inertia::render('UserVerification');
-    })->name('verification');
     Route::get('/calendar', function () {
         return Inertia::render('Calendar');
     })->name('calendar');
@@ -47,7 +44,7 @@ Route::middleware(['auth', CheckIfAdmin::class])->group(function () {
 
 
     // ----------------- VERIFICATION OF USER ----------------- //
+    Route::get('/verification', [VerificationAdminController::class, 'verification'])->name('verification');
     Route::put('/accept-verification/{id}/accept', [VerificationAdminController::class, 'accept'])->name('acceptVerification');
     Route::put('/reject-verification/{id}/reject', [VerificationAdminController::class, 'reject'])->name('rejectVerification');
-    Route::get('/unverifiedResident', [VerificationAdminController::class, 'unverifiedResidents'])->name('unverified.resident');
 });
