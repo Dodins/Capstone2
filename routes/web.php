@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\AuthAdminController;
 use App\Http\Controllers\Admin\VerificationAdminController;
 use App\Http\Controllers\Admin\AnnouncementAdminController;
 use App\Http\Controllers\Admin\DashboardAdminController;
+use App\Http\Controllers\Admin\MapAdminController;
 
 Route::get('/', function () {
     return Inertia::render('Landing');
@@ -25,14 +26,16 @@ Route::middleware(['auth', CheckIfAdmin::class])->group(function () {
     Route::get('/calendar', function () {
         return Inertia::render('Calendar');
     })->name('calendar');
-    Route::get('/map', function () {
-        return Inertia::render('MapMain');
-    })->name('map');
 
     Route::post('logout', [AuthAdminController::class, 'logout'])->name('logout');
 
     // ----------------- DASHBOARD ----------------- //
     Route::get('/dashboard', [DashboardAdminController::class, 'dashboard'])->name('dashboard');
+
+
+    // ----------------- MAP ----------------- //
+    Route::get('/map', [MapAdminController::class, 'map'])->name('map');
+    Route::post('/map', [MapAdminController::class, 'store'])->name('map.store');
 
 
     // ----------------- ANNOUNCEMENT ----------------- //

@@ -11,7 +11,7 @@ use Inertia\Response;
 
 class DashboardAdminController extends Controller
 {
-    public function dashboard()
+    public function dashboard(): Response
     {
         $residents = Resident::where('is_verified', true)->get();
         $residentCount = $residents->count();

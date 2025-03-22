@@ -1,5 +1,6 @@
 <script setup>
 import { ref, watchEffect, onMounted, onUnmounted, markRaw } from "vue";
+import CrimeLocationModal from "@/Components/Modal/CrimeLocationModal.vue";
 import { Map, config } from "@maptiler/sdk";
 import "@maptiler/sdk/dist/maptiler-sdk.css";
 
@@ -7,13 +8,11 @@ const props = defineProps({
     disableClicks: Boolean,
 });
 
-const handleClick = () => {
-    if (props.disableClicks) {
-        console.log("Click event disabled on this page.");
-        return;
-    }
-    console.log("Function executed!");
-};
+const showModal = ref(false);
+const locationData = ref({
+    lat: null,
+    lng: null,
+});
 
 const mapContainer = ref(null);
 const map = ref(null);
@@ -52,9 +51,9 @@ const getLatLng = (event) => {
         return;
     }
     const { lng, lat } = event.lngLat;
-    console.log(
-        `You clicked the map at latitude: ${lat} and longitude: ${lng}`
-    );
+    locationData.value.lat = lat;
+    locationData.value.lng = lng;
+    showModal.value = true;
 };
 
 onMounted(() => {
@@ -80,6 +79,11 @@ onUnmounted(() => {
 <template>
     <div class="map-wrap">
         <div class="map" ref="mapContainer"></div>
+        <CrimeLocationModal
+            v-if="showModal"
+            :location="locationData"
+            @close="showModal = false"
+        />
     </div>
 </template>
 
