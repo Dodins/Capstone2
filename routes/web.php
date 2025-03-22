@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\Admin\AuthAdminController;
 use App\Http\Controllers\Admin\VerificationAdminController;
 use App\Http\Controllers\Admin\AnnouncementAdminController;
+use App\Http\Controllers\Admin\DashboardAdminController;
 
 Route::get('/', function () {
     return Inertia::render('Landing');
@@ -21,9 +22,6 @@ Route::post('login', [AuthAdminController::class, 'authenticate'])->name('authen
 // ADMIN MIDDLEWARE
 Route::middleware(['auth', CheckIfAdmin::class])->group(function () {
     // ----------------- NAVIGATION ----------------- //
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
     Route::get('/calendar', function () {
         return Inertia::render('Calendar');
     })->name('calendar');
@@ -32,6 +30,9 @@ Route::middleware(['auth', CheckIfAdmin::class])->group(function () {
     })->name('map');
 
     Route::post('logout', [AuthAdminController::class, 'logout'])->name('logout');
+
+    // ----------------- DASHBOARD ----------------- //
+    Route::get('/dashboard', [DashboardAdminController::class, 'dashboard'])->name('dashboard');
 
 
     // ----------------- ANNOUNCEMENT ----------------- //

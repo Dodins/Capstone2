@@ -5,8 +5,8 @@ import NavLink from "@/Components/NavLink.vue";
 
 const props = defineProps({
     title: String,
-    iconSolid: Object,
-    iconOutline: Object,
+    iconSolid: [Object, Function],
+    iconOutline: [Object, Function],
     subLinks: Array,
     link: String,
 });

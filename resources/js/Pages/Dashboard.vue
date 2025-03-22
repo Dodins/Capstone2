@@ -9,6 +9,12 @@ import DashboardMediumReport from "@/Components/Reports/DashboardMediumReport.vu
 import DashboardLowReport from "@/Components/Reports/DashboardLowReport.vue";
 import DashboardVerifiedUsers from "@/Components/Reports/DashboardVerifiedUsers.vue";
 import { Head } from "@inertiajs/vue3";
+
+const props = defineProps({
+    residents: Array,
+    residentCount: Number,
+});
+
 </script>
 
 <template>
@@ -24,7 +30,7 @@ import { Head } from "@inertiajs/vue3";
                 <DashboardHighReport />
                 <DashboardMediumReport />
                 <DashboardLowReport />
-                <DashboardVerifiedUsers />
+                <DashboardVerifiedUsers :residentCount="props.residentCount" />
             </div>
             <div class="w-3/6 h-full flex flex-col gap-4">
                 <div
@@ -76,7 +82,7 @@ import { Head } from "@inertiajs/vue3";
                     <h1 class="dark:text-[#EEEEEE] text-[#222831] font-bold">
                         Verified users
                     </h1>
-                    <VerifiedUsersTable />
+                    <VerifiedUsersTable :residents="props.residents"/>
                 </div>
             </div>
             <div class="w-2/6 h-full flex flex-col gap-4">

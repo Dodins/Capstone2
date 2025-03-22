@@ -11,11 +11,11 @@ const props = defineProps({
         type: Boolean,
     },
     iconSolid: {
-        type: Object,
+        type: [Object, Function],
         default: null,
     },
     iconOutline: {
-        type: Object,
+        type: [Object, Function],
         default: null,
     },
 });
