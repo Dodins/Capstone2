@@ -1,10 +1,20 @@
 <script setup>
-import { ref, watchEffect, onMounted, onUnmounted, markRaw } from "vue";
+import {
+    ref,
+    watchEffect,
+    onMounted,
+    onUnmounted,
+    markRaw,
+    h,
+    createApp,
+} from "vue";
 import CrimeLocationModal from "@/Components/Modal/CrimeLocationModal.vue";
-import { Map, config } from "@maptiler/sdk";
+import CrimePopup from "@/Components/Modal/CrimePopup.vue";
+import { Map, config, Marker, Popup } from "@maptiler/sdk";
 import "@maptiler/sdk/dist/maptiler-sdk.css";
 
 const props = defineProps({
+    crimeLocation: Array,
     disableClicks: Boolean,
 });
 
@@ -16,6 +26,7 @@ const locationData = ref({
 
 const mapContainer = ref(null);
 const map = ref(null);
+const markers = ref([]);
 const darkMode = ref(window.matchMedia("(prefers-color-scheme: dark)").matches);
 const API_KEY = import.meta.env.VITE_MAPTILER_API_KEY;
 
@@ -40,6 +51,36 @@ const initializeMap = () => {
         })
     );
     map.value.on("click", getLatLng);
+    addMarkers();
+};
+
+const addMarkers = () => {
+    markers.value.forEach((marker) => marker.remove());
+    markers.value = [];
+
+    if (!props.crimeLocation) return;
+
+    props.crimeLocation.forEach((location) => {
+        if (!location.lat || !location.lng) return;
+
+        const popupElement = document.createElement("div");
+        const app = createApp(CrimePopup, { location });
+        app.mount(popupElement);
+
+        const popup = new Popup().setDOMContent(popupElement);
+
+        const marker = new Marker({ color: "red" })
+            .setLngLat([location.lng, location.lat])
+            .addTo(map.value)
+            .setPopup(popup);
+
+        marker.getElement().addEventListener("click", (event) => {
+            event.stopPropagation();
+            marker.togglePopup();
+        });
+
+        markers.value.push(marker);
+    });
 };
 
 const getLatLng = (event) => {
@@ -55,6 +96,10 @@ const getLatLng = (event) => {
     locationData.value.lng = lng;
     showModal.value = true;
 };
+
+watchEffect(() => {
+    if (map.value) addMarkers();
+});
 
 onMounted(() => {
     initializeMap();

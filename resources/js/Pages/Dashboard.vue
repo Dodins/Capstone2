@@ -13,6 +13,7 @@ import { Head } from "@inertiajs/vue3";
 const props = defineProps({
     residents: Array,
     residentCount: Number,
+    crimeLocation: Array,
 });
 
 </script>
@@ -89,7 +90,7 @@ const props = defineProps({
                 <div
                     class="w-full h-1/2 dark:bg-[#3C4053] bg-[#DDE3E7] rounded-xl overflow-hidden"
                 >
-                    <Map disableClicks />
+                    <Map disableClicks :crimeLocation="props.crimeLocation"/>
                 </div>
                 <div
                     class="w-full h-1/2 dark:bg-[#3C4053] bg-[#DDE3E7] rounded-xl flex flex-col p-4"
