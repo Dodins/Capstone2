@@ -36,6 +36,7 @@ Route::middleware(['auth', CheckIfAdmin::class])->group(function () {
     // ----------------- MAP ----------------- //
     Route::get('/map', [MapAdminController::class, 'map'])->name('map');
     Route::post('/map', [MapAdminController::class, 'store'])->name('map.store');
+    Route::delete('/map/{id}', [MapAdminController::class, 'destroy'])->name('map.destroy');
 
 
     // ----------------- ANNOUNCEMENT ----------------- //

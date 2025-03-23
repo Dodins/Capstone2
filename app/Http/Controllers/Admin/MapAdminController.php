@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
@@ -33,7 +34,8 @@ class MapAdminController extends Controller
             ]);
 
             if ($request->hasFile('image')) {
-                $imagePath = $request->file('image')->store('crime_images', 'public');
+                $path = $request->file('image')->store('crime_images', 'public');
+                $imagePath = 'storage/' . $path;
                 $data['image'] = $imagePath;
             }
 

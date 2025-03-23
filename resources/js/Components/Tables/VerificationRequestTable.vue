@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, watch, onMounted, getCurrentInstance } from "vue";
+import { ref, getCurrentInstance } from "vue";
 import axios from "axios";
 import ImageView from "@/Components/Modal/ImageView.vue";
 import { router } from "@inertiajs/vue3";
@@ -39,7 +39,9 @@ const handleReject = async (id) => {
 
 <template>
     <div class="h-full w-full overflow-hidden rounded-xl flex flex-col">
-        <div class="overflow-y-auto no-scrollbar flex-grow min-h-0 max-h-[calc(100vh-239px)] no-scrollbar">
+        <div
+            class="overflow-y-auto no-scrollbar flex-grow min-h-0 max-h-[calc(100vh-239px)] no-scrollbar"
+        >
             <table class="table-fixed w-full">
                 <thead class="sticky top-0">
                     <tr>
@@ -165,38 +167,6 @@ const handleReject = async (id) => {
                     </tr>
                 </tbody>
             </table>
-        </div>
-        <div class="flex justify-between items-center">
-            <button
-                @click="goToPage(currentPage - 1)"
-                :disabled="currentPage === 1"
-                class="px-4 py-2 dark:bg-[#3C4053] bg-[#DDE3E7] dark:text-[#EEEEEE] text-[#222831] rounded-xl disabled:opacity-50"
-            >
-                &#x276E;
-            </button>
-            <div>
-                <button
-                    v-for="page in pageNumbers"
-                    :key="page"
-                    @click="goToPage(page)"
-                    class="px-4 py-2 mx-1 rounded-xl"
-                    :class="{
-                        'dark:bg-[#6084FF] bg-[#3B5FBF] text-white':
-                            page === currentPage,
-                        'dark:bg-[#3C4053] bg-[#DDE3E7] text-[#222831] dark:text-[#EEEEEE]':
-                            page !== currentPage,
-                    }"
-                >
-                    {{ page }}
-                </button>
-            </div>
-            <button
-                @click="goToPage(currentPage + 1)"
-                :disabled="currentPage === totalPages"
-                class="px-4 py-2 dark:bg-[#3C4053] bg-[#DDE3E7] dark:text-[#EEEEEE] text-[#222831] rounded-xl disabled:opacity-50"
-            >
-                &#x276F;
-            </button>
         </div>
     </div>
     <ImageView
