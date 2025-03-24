@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ConcernAdminController;
+use App\Http\Controllers\Admin\ConcernDisplayAdminController;
 use App\Http\Controllers\Admin\VerificationAdminController;
 use App\Http\Controllers\Resident\AnnouncementResidentController;
 use App\Http\Controllers\Resident\AuthResidentController;
@@ -52,3 +53,4 @@ Route::get('/unverifiedResident', [VerificationAdminController::class, 'unverifi
 Route::post('/change-status/{id}', [ConcernAdminController::class, 'updateStatus']);
 Route::post('/set-priority/{id}', [ConcernAdminController::class, 'setPriority']);
 Route::post('/reject/{id}', [ConcernAdminController::class, 'reject']);
+Route::get('/concern-display/{priority}', [ConcernDisplayAdminController::class, 'priorityConcerns']);
