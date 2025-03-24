@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Resident;
 
 use App\Http\Controllers\Controller;
 use App\Models\Concern;
+use App\Models\ConcernStatusHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -106,5 +107,37 @@ class ConcernResidentController extends Controller
         $concern->delete();
 
         return response()->json(['message' => 'Concern deleted successfully!']);
+    }
+
+
+    public function resolvedToComplete(Request $request, $id)
+    {
+
+        $request->validate([
+            'notes' => 'required|string|max:255'
+        ]);
+
+        $user = Auth::user();
+        $concern = Concern::findOrFail($id);
+
+
+        if ($concern->user_id !== $user->id) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        $concern->update([
+            'resident_confirmation' => 'accepted',
+            'status' => 'completed'
+        ]);
+
+        ConcernStatusHistory::create([
+            'concern_id' => $concern->id,
+            'status' => 'completed',
+            'notes' => $request->notes,
+        ]);
+
+        return response()->json([
+            'message' => 'The resident has confirmed that the concern is complete.'
+        ]);
     }
 }

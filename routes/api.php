@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\ConcernAdminController;
+use App\Http\Controllers\Admin\ConcernDisplayAdminController;
 use App\Http\Controllers\Admin\VerificationAdminController;
 use App\Http\Controllers\Resident\AnnouncementResidentController;
 use App\Http\Controllers\Resident\AuthResidentController;
@@ -34,6 +36,7 @@ Route::middleware(['auth:sanctum', CheckIfVerifiedResident::class])->group(funct
 
     // CONCERN
     Route::apiResource('concerns', ConcernResidentController::class);
+    Route::post('/resolved/{id}', [ConcernResidentController::class, 'resolvedToComplete']);
 });
 
 
@@ -47,3 +50,8 @@ Route::middleware(['auth:sanctum', CheckIfVerifiedResident::class])->group(funct
 Route::post('/accept-verification/{id}/accept', [VerificationAdminController::class, 'accept']);
 Route::post('/accept-verification/{id}/reject', [VerificationAdminController::class, 'reject']);
 Route::get('/unverifiedResident', [VerificationAdminController::class, 'unverifiedResidents']);
+Route::post('/change-status/{id}', [ConcernAdminController::class, 'updateStatus']);
+Route::post('/set-priority/{id}', [ConcernAdminController::class, 'setPriority']);
+Route::post('/reject/{id}', [ConcernAdminController::class, 'reject']);
+Route::get('/concern-display/{priority}', [ConcernDisplayAdminController::class, 'priorityConcerns']);
+Route::get('/incomingReports', [ConcernDisplayAdminController::class, 'incomingReports']);
