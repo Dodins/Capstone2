@@ -54,3 +54,4 @@ Route::post('/change-status/{id}', [ConcernAdminController::class, 'updateStatus
 Route::post('/set-priority/{id}', [ConcernAdminController::class, 'setPriority']);
 Route::post('/reject/{id}', [ConcernAdminController::class, 'reject']);
 Route::get('/concern-display/{priority}', [ConcernDisplayAdminController::class, 'priorityConcerns']);
+Route::get('/incomingReports', [ConcernDisplayAdminController::class, 'incomingReports']);

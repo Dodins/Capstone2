@@ -7,6 +7,14 @@ use App\Models\Concern;
 
 class ConcernDisplayAdminController extends Controller
 {
+
+    public function incomingReports()
+    {
+
+        return Concern::whereNull('priority')->whereNull('status')->get();
+    }
+
+
     public function priorityConcerns($priority)
     {
         $allowedPriorities = ['low', 'medium', 'high'];
