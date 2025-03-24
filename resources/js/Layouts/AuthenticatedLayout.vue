@@ -94,7 +94,7 @@ import {
                     />
                     <NavLink
                         :href="route('calendar')"
-                        :active="route().current('calendar')"
+                        :active="route().current().startsWith('calendar')"
                         :iconSolid="CalendarIcon"
                         :iconOutline="CalendarIconOutline"
                         class="hover:dark:text-[#6084FF] hover:text-[#3B5FBF] transition-colors"

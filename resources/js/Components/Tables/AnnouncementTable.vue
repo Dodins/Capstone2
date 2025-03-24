@@ -1,6 +1,6 @@
 <script setup>
 import DeleteConfirmation from "@/Components/Modal/DeleteConfirmation.vue";
-import { defineProps, ref } from "vue";
+import { ref } from "vue";
 import { router } from "@inertiajs/vue3";
 
 const props = defineProps({

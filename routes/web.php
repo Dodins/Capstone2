@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\VerificationAdminController;
 use App\Http\Controllers\Admin\AnnouncementAdminController;
 use App\Http\Controllers\Admin\DashboardAdminController;
 use App\Http\Controllers\Admin\MapAdminController;
+use App\Http\Controllers\Admin\EventAdminController;
 
 Route::get('/', function () {
     return Inertia::render('Landing');
@@ -22,15 +23,20 @@ Route::post('login', [AuthAdminController::class, 'authenticate'])->name('authen
 
 // ADMIN MIDDLEWARE
 Route::middleware(['auth', CheckIfAdmin::class])->group(function () {
-    // ----------------- NAVIGATION ----------------- //
-    Route::get('/calendar', function () {
-        return Inertia::render('Calendar');
-    })->name('calendar');
 
     Route::post('logout', [AuthAdminController::class, 'logout'])->name('logout');
 
     // ----------------- DASHBOARD ----------------- //
     Route::get('/dashboard', [DashboardAdminController::class, 'dashboard'])->name('dashboard');
+
+
+    // ----------------- CALENDAR ----------------- //
+    Route::get('/calendar', [EventAdminController::class, 'calendar'])->name('calendar');
+    Route::get('/calendar/create', [EventAdminController::class, 'createEvent'])->name('calendar.create');
+    Route::post('/calendar/create', [EventAdminController::class, 'store'])->name('calendar.store');
+    Route::get('/calendar/edit/{id}', [EventAdminController::class, 'updateEvent'])->name('calendar.edit');
+    Route::post('/calendar/edit/{id}', [EventAdminController::class, 'update'])->name('calendar.update');
+    Route::delete('/calendar/destroy/{id}', [EventAdminController::class, 'destroy'])->name('calendar.destroy');
 
 
     // ----------------- MAP ----------------- //

@@ -23,6 +23,9 @@ const confirmDelete = async () => {
         if (props.type === "announcement") {
             apiUrl = `/announcement/destroy/${props.id}`;
         }
+        if(props.type === "event"){
+            apiUrl = `/calendar/destroy/${props.id}`;
+        }
         if (!apiUrl) {
             console.error("Invalid type:", props.type);
             return;
