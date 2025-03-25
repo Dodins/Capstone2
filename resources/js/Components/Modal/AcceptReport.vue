@@ -1,4 +1,7 @@
 <script setup>
+import PrimaryButton from "@/Components/PrimaryButton.vue";
+import SecondaryButton from "@/Components/SecondaryButton.vue";
+import { updatePrimaryPalette } from "@primeuix/themes";
 const props = defineProps({
     id: Number,
     show: Boolean,
@@ -95,10 +98,15 @@ const close = () => {
                         <h1
                             class="dark:text-[#B0B0B0] text-[#4B5660] text-[14px]"
                         >
-                            Minimal impact, can be addressed during regular hours.
+                            Minimal impact, can be addressed during regular
+                            hours.
                         </h1>
                     </div>
                 </div>
+            </div>
+            <div class="flex justify-end items-center mt-8 gap-2">
+                <SecondaryButton @click="close"> Cancel </SecondaryButton>
+                <PrimaryButton> Accept request </PrimaryButton>
             </div>
         </div>
     </div>
