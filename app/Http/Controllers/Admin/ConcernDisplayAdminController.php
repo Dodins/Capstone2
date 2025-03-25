@@ -4,14 +4,33 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Concern;
+use Inertia\Inertia;
 
 class ConcernDisplayAdminController extends Controller
 {
 
     public function incomingReports()
     {
+        $incomingConcerns = Concern::whereNull('priority')->whereNull('status')->get();
+        return Inertia::render('Reports/IncomingReports', ['incomingConcerns' => $incomingConcerns]);
+    }
 
-        return Concern::whereNull('priority')->whereNull('status')->get();
+    public function highPriorityReports()
+    {
+        $incomingConcerns = Concern::whereNull('priority')->whereNull('status')->get();
+        return Inertia::render('Reports/HighPriorityReports', ['incomingConcerns' => $incomingConcerns]);
+    }
+
+    public function mediumPriorityReports()
+    {
+        $incomingConcerns = Concern::whereNull('priority')->whereNull('status')->get();
+        return Inertia::render('Reports/MediumPriorityReports', ['incomingConcerns' => $incomingConcerns]);
+    }
+
+    public function lowPriorityReports()
+    {
+        $incomingConcerns = Concern::whereNull('priority')->whereNull('status')->get();
+        return Inertia::render('Reports/LowPriorityReports', ['incomingConcerns' => $incomingConcerns]);
     }
 
 

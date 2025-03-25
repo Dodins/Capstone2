@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\AnnouncementAdminController;
 use App\Http\Controllers\Admin\DashboardAdminController;
 use App\Http\Controllers\Admin\MapAdminController;
 use App\Http\Controllers\Admin\EventAdminController;
+use App\Http\Controllers\Admin\ConcernDisplayAdminController;
 
 Route::get('/', function () {
     return Inertia::render('Landing');
@@ -28,6 +29,13 @@ Route::middleware(['auth', CheckIfAdmin::class])->group(function () {
 
     // ----------------- DASHBOARD ----------------- //
     Route::get('/dashboard', [DashboardAdminController::class, 'dashboard'])->name('dashboard');
+
+
+    // ----------------- CONCERN ----------------- //
+    Route::get('/incoming-reports', [ConcernDisplayAdminController::class, 'incomingReports'])->name('incomingReports');
+    Route::get('/high-priority-reports', [ConcernDisplayAdminController::class, 'highPriorityReports'])->name('highPriorityReports');
+    Route::get('/medium-priority-reports', [ConcernDisplayAdminController::class, 'mediumPriorityReports'])->name('mediumPriorityReports');
+    Route::get('/low-priority-reports', [ConcernDisplayAdminController::class, 'lowPriorityReports'])->name('lowPriorityReports');
 
 
     // ----------------- CALENDAR ----------------- //
