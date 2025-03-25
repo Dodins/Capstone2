@@ -80,15 +80,23 @@ import {
                         :subLinks="[
                             {
                                 label: 'Incoming concern',
+                                href: route('incomingReports'),
+                                active: route().current('incomingReports'),
                             },
                             {
                                 label: 'High priority',
+                                href: route('highPriorityReports'),
+                                active: route().current('highPriorityReports'),
                             },
                             {
                                 label: 'Medium priority',
+                                href: route('mediumPriorityReports'),
+                                active: route().current('mediumPriorityReports'),
                             },
                             {
                                 label: 'Low priority',
+                                href: route('lowPriorityReports'),
+                                active: route().current('lowPriorityReports'),
                             },
                         ]"
                     />
