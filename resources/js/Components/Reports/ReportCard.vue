@@ -2,18 +2,26 @@
 import { ref } from "vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
+import AcceptReport from "../Modal/AcceptReport.vue";
 
 const props = defineProps({
     title: String,
     incomingConcerns: Array,
 });
 
-const priority = ref("Choose");
-const options = ["High", "Medium", "Low"];
+const showAcceptConfirmation = ref(false);
+
+const openAcceptModal = (id) => {
+    showAcceptConfirmation.value = true;
+};
+
+const closeDeleteModal = () => {
+    showAcceptConfirmation.value = false;
+};
 </script>
 
 <template>
-    <div class="border-3 dark:border-[#3C4053] border-[#DDE3E7] p-4 rounded-lg">
+    <div class="border-3 dark:border-[#3C4053] border-[#DDE3E7] p-4 rounded-xl">
         <div class="flex w-full h-full gap-4 items-center">
             <div
                 class="rounded-xl dark:bg-[#3C4053] bg-[#DDE3E7] h-24 w-24"
@@ -37,9 +45,13 @@ const options = ["High", "Medium", "Low"];
                 </h1>
             </div>
             <div class="flex flex-col gap-2">
-                <PrimaryButton> Accept </PrimaryButton>
+                <PrimaryButton @click="openAcceptModal"> Accept </PrimaryButton>
                 <SecondaryButton> Reject </SecondaryButton>
             </div>
         </div>
     </div>
+    <AcceptReport
+        :show="showAcceptConfirmation"
+        @close="closeDeleteModal"
+    />
 </template>
