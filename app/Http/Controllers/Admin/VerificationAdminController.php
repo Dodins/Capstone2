@@ -5,19 +5,18 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Resident;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class VerificationAdminController extends Controller
 {
-    public function unverifiedResidents()
+    public function verification()
     {
-        $residents = Resident::where('is_verified', false)->where('application_status', 'pending')->paginate(20);
-
-        if($residents->isEmpty()){
-            return response()->json(
-                ['message' => 'No Pending Verification request',
-            ]);
-        }
-        return response()->json($residents);
+        $residents = Resident::where('is_verified', false )->where('application_status', 'pending')->get();
+        return Inertia::render('UserVerification', [
+            'residents' => $residents,
+        ]);
     }
 
     public function accept($id)
@@ -30,7 +29,7 @@ class VerificationAdminController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'The person is verified'
+            'message' => 'The person is verified',
         ]);
     }
 
@@ -44,8 +43,7 @@ class VerificationAdminController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'The person is rejected'
+            'message' => 'The person is rejected',
         ]);
     }
 }
-

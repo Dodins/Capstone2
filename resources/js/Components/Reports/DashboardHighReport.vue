@@ -1,6 +1,6 @@
 <template>
     <div
-        class="w-full h-1/2 dark:bg-[#3C4053] bg-[#DDE3E7] rounded-2xl p-4 flex flex-col justify-between"
+        class="w-full h-1/2 dark:bg-[#3C4053] bg-[#DDE3E7] rounded-xl p-4 flex flex-col justify-between"
     >
         <div class="">
             <h1 class="dark:text-[#EEEEEE] text-[#222831] font-bold">

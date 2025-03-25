@@ -1,5 +1,6 @@
 @import "@fontsource/quicksand/index.css";
 @import "tailwindcss";
+@import "tailwindcss-primeui";
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -34,4 +35,20 @@ input:-webkit-autofill {
 .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
+}
+
+.maplibregl-popup-content {
+    font-family: "Quicksand", sans-serif !important;
+    background: transparent !important; /* Remove default white background */
+    box-shadow: none !important; /* Remove unwanted shadow */
+    padding: 0 !important; /* Remove default padding */
+    border-radius: 0 !important; /* Ensure no conflicting border-radius */
+}
+
+.maplibregl-popup-tip {
+    display: none !important;
+}
+
+.maplibregl-popup-close-button {
+    display: none !important;
 }

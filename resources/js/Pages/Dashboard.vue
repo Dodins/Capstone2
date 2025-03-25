@@ -9,6 +9,13 @@ import DashboardMediumReport from "@/Components/Reports/DashboardMediumReport.vu
 import DashboardLowReport from "@/Components/Reports/DashboardLowReport.vue";
 import DashboardVerifiedUsers from "@/Components/Reports/DashboardVerifiedUsers.vue";
 import { Head } from "@inertiajs/vue3";
+
+const props = defineProps({
+    residents: Array,
+    residentCount: Number,
+    crimeLocation: Array,
+});
+
 </script>
 
 <template>
@@ -19,16 +26,16 @@ import { Head } from "@inertiajs/vue3";
             <h2 class="">Dashboard</h2>
         </template>
 
-        <div class="w-full h-full flex gap-4 pt-4">
-            <div class="flex flex-col h-full w-1/6 gap-4">
+        <div class="flex gap-4 w-full h-full">
+            <div class="flex flex-col gap-4 w-1/6 h-full">
                 <DashboardHighReport />
                 <DashboardMediumReport />
                 <DashboardLowReport />
-                <DashboardVerifiedUsers />
+                <DashboardVerifiedUsers :residentCount="props.residentCount" />
             </div>
-            <div class="h-full w-3/6 gap-4 flex flex-col">
+            <div class="w-3/6 h-full flex flex-col gap-4">
                 <div
-                    class="w-full h-3/5 dark:bg-[#3C4053] bg-[#DDE3E7] rounded-2xl p-4 flex flex-col"
+                    class="w-full h-3/5 dark:bg-[#3C4053] bg-[#DDE3E7] rounded-xl p-4 flex flex-col"
                 >
                     <div class="flex justify-between items-center">
                         <div>
@@ -71,19 +78,22 @@ import { Head } from "@inertiajs/vue3";
                     </div>
                 </div>
                 <div
-                    class="w-full h-2/5 dark:bg-[#3C4053] bg-[#DDE3E7] rounded-2xl px-4 pt-4"
+                    class="w-full h-2/5 dark:bg-[#3C4053] bg-[#DDE3E7] rounded-xl p-4 flex flex-col overflow-hidden"
                 >
-                    <VerifiedUsersTable />
+                    <h1 class="dark:text-[#EEEEEE] text-[#222831] font-bold">
+                        Verified users
+                    </h1>
+                    <VerifiedUsersTable :residents="props.residents"/>
                 </div>
             </div>
-            <div class="h-full w-2/6 gap-4 flex flex-col">
+            <div class="w-2/6 h-full flex flex-col gap-4">
                 <div
-                    class="w-full h-1/2 dark:bg-[#3C4053] bg-[#DDE3E7] rounded-2xl overflow-hidden"
+                    class="w-full h-1/2 dark:bg-[#3C4053] bg-[#DDE3E7] rounded-xl overflow-hidden"
                 >
-                    <Map />
+                    <Map disableClicks :crimeLocation="props.crimeLocation"/>
                 </div>
                 <div
-                    class="w-full h-1/2 dark:bg-[#3C4053] bg-[#DDE3E7] rounded-2xl px-4 pt-4 flex flex-col"
+                    class="w-full h-1/2 dark:bg-[#3C4053] bg-[#DDE3E7] rounded-xl flex flex-col p-4"
                 >
                     <h1 class="dark:text-[#EEEEEE] text-[#222831] font-bold">
                         Incident Status Overview

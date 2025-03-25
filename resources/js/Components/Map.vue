@@ -1,10 +1,32 @@
 <script setup>
-import { ref, watchEffect, onMounted, onUnmounted, markRaw } from "vue";
-import { Map, config } from "@maptiler/sdk";
+import {
+    ref,
+    watchEffect,
+    onMounted,
+    onUnmounted,
+    markRaw,
+    h,
+    createApp,
+} from "vue";
+import CrimeLocationModal from "@/Components/Modal/CrimeLocationModal.vue";
+import CrimePopup from "@/Components/Modal/CrimePopup.vue";
+import { Map, config, Marker, Popup } from "@maptiler/sdk";
 import "@maptiler/sdk/dist/maptiler-sdk.css";
+
+const props = defineProps({
+    crimeLocation: Array,
+    disableClicks: Boolean,
+});
+
+const showModal = ref(false);
+const locationData = ref({
+    lat: null,
+    lng: null,
+});
 
 const mapContainer = ref(null);
 const map = ref(null);
+const markers = ref([]);
 const darkMode = ref(window.matchMedia("(prefers-color-scheme: dark)").matches);
 const API_KEY = import.meta.env.VITE_MAPTILER_API_KEY;
 
@@ -28,7 +50,56 @@ const initializeMap = () => {
             fullscreenControl: false,
         })
     );
+    map.value.on("click", getLatLng);
+    addMarkers();
 };
+
+const addMarkers = () => {
+    markers.value.forEach((marker) => marker.remove());
+    markers.value = [];
+
+    if (!props.crimeLocation) return;
+
+    props.crimeLocation.forEach((location) => {
+        if (!location.lat || !location.lng) return;
+
+        const popupElement = document.createElement("div");
+        const app = createApp(CrimePopup, { location });
+        app.mount(popupElement);
+
+        const popup = new Popup().setDOMContent(popupElement);
+
+        const marker = new Marker({ color: "red" })
+            .setLngLat([location.lng, location.lat])
+            .addTo(map.value)
+            .setPopup(popup);
+
+        marker.getElement().addEventListener("click", (event) => {
+            event.stopPropagation();
+            marker.togglePopup();
+        });
+
+        markers.value.push(marker);
+    });
+};
+
+const getLatLng = (event) => {
+    if (props.disableClicks) {
+        return;
+    }
+    if (!event.lngLat) {
+        console.error("Event does not contain lngLat data:", event);
+        return;
+    }
+    const { lng, lat } = event.lngLat;
+    locationData.value.lat = lat;
+    locationData.value.lng = lng;
+    showModal.value = true;
+};
+
+watchEffect(() => {
+    if (map.value) addMarkers();
+});
 
 onMounted(() => {
     initializeMap();
@@ -43,13 +114,21 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-    map.value?.remove();
+    if (map.value) {
+        map.value.off("click", getLatLng);
+        map.value.remove();
+    }
 });
 </script>
 
 <template>
     <div class="map-wrap">
         <div class="map" ref="mapContainer"></div>
+        <CrimeLocationModal
+            v-if="showModal"
+            :location="locationData"
+            @close="showModal = false"
+        />
     </div>
 </template>
 

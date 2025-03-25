@@ -1,58 +1,16 @@
 <script setup>
-import { ref, computed, watch, onMounted } from "vue";
+import { ref, getCurrentInstance } from "vue";
 import axios from "axios";
-import ImageView from "@/Components/ImageView.vue";
+import ImageView from "@/Components/Modal/ImageView.vue";
+import { router } from "@inertiajs/vue3";
 
-const hostUrl = "http://127.0.0.1:8000";
-const currentPage = ref(1);
-const itemsPerPage = ref(10);
-const totalPages = ref(1);
-const residents = ref([]);
-const totalItems = ref(0);
+const { proxy } = getCurrentInstance();
+const hostUrl = proxy.$hostUrl;
 const selectedImage = ref(null);
 
-const fetchResidents = async () => {
-    try {
-        const response = await axios.get(
-            `unverifiedResident?page=${currentPage.value}`
-        );
-        residents.value = response.data.data;
-        totalPages.value = response.data.last_page;
-        totalItems.value = response.data.total;
-        itemsPerPage.value = response.data.per_page;
-    } catch (error) {
-        console.error("Error fetching residents:", error);
-    }
-};
-
-watch(currentPage, fetchResidents);
-
-onMounted(fetchResidents);
-
-const pageNumbers = computed(() => {
-    const pages = [];
-    const total = totalPages.value;
-    const current = currentPage.value;
-
-    let start = Math.max(1, current - 2);
-    let end = Math.min(total, start + 4);
-
-    if (end - start < 4) {
-        start = Math.max(1, end - 4);
-    }
-
-    for (let i = start; i <= end; i++) {
-        pages.push(i);
-    }
-
-    return pages;
+const props = defineProps({
+    residents: Array,
 });
-
-const goToPage = (page) => {
-    if (page >= 1 && page <= totalPages.value) {
-        currentPage.value = page;
-    }
-};
 
 const openImageView = (imageUrl) => {
     selectedImage.value = `${hostUrl}/${imageUrl}`;
@@ -61,7 +19,7 @@ const openImageView = (imageUrl) => {
 const handleAccept = async (id) => {
     try {
         await axios.put(`/accept-verification/${id}/accept`);
-        fetchResidents();
+        router.visit(window.location.href);
     } catch (error) {
         console.error("Error accepting resident:", error);
         alert("Failed to accept resident.");
@@ -71,7 +29,7 @@ const handleAccept = async (id) => {
 const handleReject = async (id) => {
     try {
         await axios.put(`/reject-verification/${id}/reject`);
-        fetchResidents();
+        router.visit(window.location.href);
     } catch (error) {
         console.error("Error rejecting resident:", error);
         alert("Failed to reject resident.");
@@ -80,8 +38,10 @@ const handleReject = async (id) => {
 </script>
 
 <template>
-    <div class="h-full w-full">
-        <div class="overflow-y-auto h-12/13 no-scrollbar">
+    <div class="h-full w-full overflow-hidden rounded-xl flex flex-col">
+        <div
+            class="overflow-y-auto no-scrollbar flex-grow min-h-0 max-h-[calc(100vh-239px)] no-scrollbar"
+        >
             <table class="table-fixed w-full">
                 <thead class="sticky top-0">
                     <tr>
@@ -207,38 +167,6 @@ const handleReject = async (id) => {
                     </tr>
                 </tbody>
             </table>
-        </div>
-        <div class="flex justify-between items-center">
-            <button
-                @click="goToPage(currentPage - 1)"
-                :disabled="currentPage === 1"
-                class="px-4 py-2 dark:bg-[#3C4053] bg-[#DDE3E7] dark:text-[#EEEEEE] text-[#222831] rounded-xl disabled:opacity-50"
-            >
-                &#x276E;
-            </button>
-            <div>
-                <button
-                    v-for="page in pageNumbers"
-                    :key="page"
-                    @click="goToPage(page)"
-                    class="px-4 py-2 mx-1 rounded-xl"
-                    :class="{
-                        'dark:bg-[#6084FF] bg-[#3B5FBF] text-white':
-                            page === currentPage,
-                        'dark:bg-[#3C4053] bg-[#DDE3E7] text-[#222831] dark:text-[#EEEEEE]':
-                            page !== currentPage,
-                    }"
-                >
-                    {{ page }}
-                </button>
-            </div>
-            <button
-                @click="goToPage(currentPage + 1)"
-                :disabled="currentPage === totalPages"
-                class="px-4 py-2 dark:bg-[#3C4053] bg-[#DDE3E7] dark:text-[#EEEEEE] text-[#222831] rounded-xl disabled:opacity-50"
-            >
-                &#x276F;
-            </button>
         </div>
     </div>
     <ImageView

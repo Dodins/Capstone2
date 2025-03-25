@@ -36,7 +36,7 @@ import {
     >
         <div class="h-full w-1/7">
             <aside
-                class="flex flex-col h-full dark:bg-[#3C4053] bg-[#DDE3E7] rounded-2xl py-6 ps-4"
+                class="flex flex-col h-full dark:bg-[#3C4053] bg-[#DDE3E7] rounded-xl py-6 ps-4"
             >
                 <div class="flex items-center">
                     <ApplicationLogo
@@ -93,7 +93,8 @@ import {
                         ]"
                     />
                     <NavLink
-                        :href="route('dashboard')"
+                        :href="route('calendar')"
+                        :active="route().current().startsWith('calendar')"
                         :iconSolid="CalendarIcon"
                         :iconOutline="CalendarIconOutline"
                         class="hover:dark:text-[#6084FF] hover:text-[#3B5FBF] transition-colors"
@@ -101,7 +102,8 @@ import {
                         Calendar
                     </NavLink>
                     <NavLink
-                        :href="route('dashboard')"
+                        :href="route('map')"
+                        :active="route().current('map')"
                         :iconSolid="MapIcon"
                         :iconOutline="MapIconOutline"
                         class="hover:dark:text-[#6084FF] hover:text-[#3B5FBF] transition-colors"
@@ -109,7 +111,8 @@ import {
                         Map
                     </NavLink>
                     <NavLink
-                        :href="route('dashboard')"
+                        :href="route('announcement')"
+                        :active="route().current().startsWith('announcement')"
                         :iconSolid="MegaphoneIcon"
                         :iconOutline="MegaphoneIconOutline"
                         class="hover:dark:text-[#6084FF] hover:text-[#3B5FBF] transition-colors"
@@ -135,9 +138,9 @@ import {
                 </NavLink>
             </aside>
         </div>
-        <div class="h-full w-6/7 flex flex-col">
+        <div class="h-full w-6/7 flex flex-col gap-4">
             <header
-                class="h-1/11 w-full flex items-center justify-between px-4 dark:bg-[#3C4053] bg-[#DDE3E7] rounded-2xl"
+                class="h-1/9 w-full flex items-center justify-between px-4 dark:bg-[#3C4053] bg-[#DDE3E7] rounded-xl"
             >
                 <div>
                     <div
@@ -162,7 +165,7 @@ import {
                     <ProfilePicture class="" />
                 </div>
             </header>
-            <main class="h-10/11 w-full">
+            <main class="h-8/9 w-full">
                 <slot />
             </main>
         </div>
