@@ -13,7 +13,6 @@ const statuses = [
     { key: "pending_action", label: "Pending Action" },
     { key: "resolved", label: "Resolved" },
     { key: "completed", label: "Completed" },
-    { key: "rejected", label: "Rejected" },
 ];
 
 // Get current status from URL
@@ -36,7 +35,7 @@ const filteredConcerns = computed(() => {
     >
         <!-- Tabs -->
         <div class="border-b dark:border-[#3C4053] border-[#DDE3E7]">
-            <div class="grid w-full grid-cols-6">
+            <div class="grid w-full grid-cols-5">
                 <Link
                     v-for="status in statuses"
                     :key="status.key"

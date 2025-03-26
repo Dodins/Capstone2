@@ -114,9 +114,7 @@ class ConcernResidentController extends Controller
     public function resolvedToComplete(Request $request, $id)
     {
 
-        $request->validate([
-            'notes' => 'required|string|max:255'
-        ]);
+        $notes = 'Your concern has been successfully resolved and marked as completed. Thank you for your cooperation! If you need any further assistance in the future, feel free to reach out.';
 
         $user = Auth::user();
         $concern = Concern::findOrFail($id);
@@ -132,9 +130,10 @@ class ConcernResidentController extends Controller
         ]);
 
         ConcernStatusHistory::create([
+            'user_id' => $concern->user_id,
             'concern_id' => $concern->id,
             'status' => 'completed',
-            'notes' => $request->notes,
+            'notes' => $notes,
         ]);
 
         return response()->json([

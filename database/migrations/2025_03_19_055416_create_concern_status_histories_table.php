@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('concern_status_histories', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained();
             $table->foreignId('concern_id')->constrained();
             $table->string('notes');
             $table->string('img_proof')->nullable();

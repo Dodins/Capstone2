@@ -36,6 +36,7 @@ Route::middleware(['auth:sanctum', CheckIfVerifiedResident::class])->group(funct
 
     // CONCERN
     Route::apiResource('concerns', ConcernResidentController::class);
+    Route::post('/concerns/resolvedToComplete/{id}', [ConcernResidentController::class, 'resolvedToComplete']);
     Route::post('/resolved/{id}', [ConcernResidentController::class, 'resolvedToComplete']);
 });
 

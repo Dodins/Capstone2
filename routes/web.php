@@ -39,6 +39,7 @@ Route::middleware(['auth', CheckIfAdmin::class])->group(function () {
     Route::get('/low-priority-reports', [ConcernDisplayAdminController::class, 'lowPriorityReports'])->name('lowPriorityReports');
     Route::post('/set-priority/{id}', [ConcernAdminController::class, 'setPriority'])->name('setPriority');
     Route::delete('/reject/{id}', [ConcernAdminController::class, 'reject'])->name('rejectIncomingReports');
+    Route::post('/update-status/{id}', [ConcernAdminController::class, 'updateStatus'])->name('updateStatus');
 
 
     // ----------------- CALENDAR ----------------- //

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Concern;
 use App\Models\ConcernStatusHistory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ConcernAdminController extends Controller
 {
@@ -22,7 +23,8 @@ class ConcernAdminController extends Controller
             'status' => 'new',
         ]);
 
-        $getNote =  ConcernStatusHistory::create([
+        $getNote = ConcernStatusHistory::create([
+            'user_id' => $concern->user_id,
             'concern_id' => $concern->id,
             'notes' => 'Concern accepted and set the priority to ' . $request->priority,
             'status' => 'new',
@@ -36,7 +38,7 @@ class ConcernAdminController extends Controller
     public function updateStatus(Request $request, $id)
     {
         $request->validate([
-            'notes' => 'required|string|max:500',
+            'notes' => 'required|string',
         ]);
 
         $concern = Concern::findorFail($id);
@@ -57,6 +59,7 @@ class ConcernAdminController extends Controller
         }
 
         $data = [
+            'user_id' => $concern->user_id,
             'concern_id' => $concern->id,
             'notes' => $request->notes,
             'status' => $nextStatus,
@@ -64,15 +67,22 @@ class ConcernAdminController extends Controller
 
         if ($nextStatus === 'resolved') {
             $request->validate([
-                'img_proof' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'img_proof' => 'required|file|mimes:jpg,png,jpeg|max:2048',
             ]);
-            $filePath = $request->file('img_proof')->store('uploads', 'public');
-            $data['img_proof'] = $filePath;
+            if ($request->hasFile('img_proof')) {
+                $filePath = $request->file('img_proof')->store('uploads', 'public');
+                $imagePath = 'storage/' . $filePath;
+                $data['img_proof'] = $imagePath;
+            }
         }
 
         $concern->update(['status' => $nextStatus]);
 
         $concernUpdate = ConcernStatusHistory::create($data);
+
+        Log::info("New concern status history created for concern ID: $id", [
+            'data' => $data,
+        ]);
 
         return response()->json([
             'concern' => $concernUpdate,
@@ -81,7 +91,6 @@ class ConcernAdminController extends Controller
 
     public function reject($id)
     {
-
         $concern = Concern::findOrFail($id);
 
         $concern->update(['status' => 'rejected']);

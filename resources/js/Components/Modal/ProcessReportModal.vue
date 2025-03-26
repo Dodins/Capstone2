@@ -2,6 +2,7 @@
 import { ref, computed } from "vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
+import { router } from "@inertiajs/vue3";
 
 const props = defineProps({
     concern: Object,
@@ -133,21 +134,29 @@ const removeFile = () => {
     }
 };
 
-const submitForm = () => {
-    // Here you would typically process the form data
-    console.log("Form submitted with:", {
-        concern: props.concern,
-        status: props.status,
-        checklist: getChecklistItems.value,
-        notes: notes.value,
-        file: uploadedFile.value,
-    });
+const submitForm = async () => {
+    try {
+        const formData = new FormData();
+        formData.append("notes", notes.value.trim());
 
-    // Reset form and close modal
-    closeModal();
+        if (uploadedFile.value) {
+            formData.append("img_proof", uploadedFile.value);
+        }
+        const response = await axios.post(
+            `/update-status/${props.concern.id}`,
+            formData,
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            }
+        );
 
-    // You could show a success message here
-    alert("Report processed successfully!");
+        closeModal();
+        router.visit(window.location.href);
+    } catch (error) {
+        console.error("Full error object:", error);
+    }
 };
 </script>
 
@@ -203,7 +212,12 @@ const submitForm = () => {
                     </div>
 
                     <!-- File Upload - For all statuses -->
-                    <div class="space-y-2">
+                    <div
+                        v-if="
+                            status === 'pending_action' || status === 'resolved'
+                        "
+                        class="space-y-2"
+                    >
                         <label
                             for="file-upload"
                             class="block text-sm font-medium dark:text-[#EEEEEE] text-[#222831]"
