@@ -27,12 +27,38 @@ class ConcernDisplayAdminController extends Controller
         return Inertia::render('Reports/MediumPriorityReports', ['incomingConcerns' => $incomingConcerns]);
     }
 
+    // public function lowPriorityReports()
+    // {
+    //     $allowedStatuses = ['new', 'under_review', 'pending_action', 'resolved', 'completed'];
+
+    //     $status = request()->query('status', null);
+
+    //     if (!in_array($status, $allowedStatuses)) {
+    //         abort(404, 'Invalid status type');
+    //     }
+
+    //     $concerns = Concern::where('status', $status)
+    //         ->with('user')
+    //         ->get();
+
+    //     return Inertia::render('Reports/LowPriorityReports', ['concerns' => $concerns]);
+    // }
+
     public function lowPriorityReports()
     {
-        $incomingConcerns = Concern::whereNull('priority')->whereNull('status')->get();
-        return Inertia::render('Reports/LowPriorityReports', ['incomingConcerns' => $incomingConcerns]);
-    }
+        $allowedStatuses = ['new', 'under_review', 'pending_action', 'resolved', 'completed'];
 
+        $status = request()->query('status', 'new');
+
+        if (!in_array($status, $allowedStatuses)) {
+            abort(404, 'Invalid status type');
+        }
+
+        $concerns = Concern::where('status', $status)
+            ->with('user')
+            ->get();
+        return Inertia::render('Reports/LowPriorityReports', ['concerns' => $concerns]);
+    }
 
     public function priorityConcerns($priority)
     {
