@@ -20,6 +20,7 @@ return new class extends Migration
             $table->enum('status', ['new', 'under_review', 'pending_action', 'resolved', 'completed', 'rejected'])->nullable();
             $table->enum('priority', ['low', 'medium', 'high'])->nullable();
             $table->enum('resident_confirmation', ['pending', 'accepted', 'rejected'])->default('pending');
+            $table->boolean('is_seen')->default(false);
             $table->timestamps();
         });
     }

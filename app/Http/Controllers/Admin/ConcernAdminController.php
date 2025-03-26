@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\Resident\SetPriorityEvent;
+use App\Events\Resident\StatusTransitionUpdateEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Concern;
 use App\Models\ConcernStatusHistory;
+use App\Models\User;
+use App\Notifications\Resident\SetPriority;
+use App\Notifications\Resident\StatusTransitionUpdate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -17,7 +22,6 @@ class ConcernAdminController extends Controller
         ]);
 
         $concern = Concern::findOrFail($id);
-
         $concern->update([
             'priority' => $request->priority,
             'status' => 'new',
@@ -29,6 +33,10 @@ class ConcernAdminController extends Controller
             'notes' => 'Concern accepted and set the priority to ' . $request->priority,
             'status' => 'new',
         ]);
+
+        $authUser = User::find($concern->user_id);
+        Notification::send($authUser, new SetPriority($concern));
+        event(new SetPriorityEvent($concern));
 
         return response()->json([
             'message' => $getNote->notes,
