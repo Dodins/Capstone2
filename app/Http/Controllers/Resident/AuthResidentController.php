@@ -20,7 +20,17 @@ class AuthResidentController extends Controller
         $resident = Resident::where('user_id', $user->id)->first();
 
         if (!$resident) {
-            return response()->json(['message' => 'Resident not found'], 404);
+            $resident = [
+                'id' => null,
+                'user_id' => $user->id,
+                'full_name' => null,
+                'email' => null,
+                'address' => null,
+                'phone_number' => null,
+                'is_verified' => 0,
+                'created_at' => null,
+                'updated_at' => null,
+            ];
         }
 
         return response()->json($resident);
@@ -34,17 +44,11 @@ class AuthResidentController extends Controller
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        $user = User::create([
+        User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => 'resident',
-        ]);
-
-        Resident::create([
-            'user_id' => $user->id,
-            'full_name' => $request->name,
-            'email' => $request->email,
         ]);
 
         return response()->json(

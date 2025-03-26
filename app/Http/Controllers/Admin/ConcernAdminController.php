@@ -12,6 +12,7 @@ use App\Notifications\Resident\SetPriority;
 use App\Notifications\Resident\StatusTransitionUpdate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification;
 
 class ConcernAdminController extends Controller
 {

@@ -37,7 +37,10 @@ const acceptConcern = async () => {
         close();
         router.visit(window.location.href);
     } catch (error) {
-        console.error("Error accepting concern:", error);
+        console.error(
+            "Error accepting concern:",
+            error.response?.data || error
+        );
     }
 };
 </script>

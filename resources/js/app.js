@@ -8,7 +8,7 @@ import { ZiggyVue } from "../../vendor/tightenco/ziggy";
 import PrimeVue from 'primevue/config';
 
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
-const hostUrl = "http://127.0.0.1:8000";
+const hostUrl = "http://192.168.100.212:8000";
 
 const updateDarkMode = () => {
     if (window.matchMedia("(prefers-color-scheme: dark)").matches) {

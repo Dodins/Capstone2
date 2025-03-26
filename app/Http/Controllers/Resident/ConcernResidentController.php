@@ -116,6 +116,16 @@ class ConcernResidentController extends Controller
         return response()->json(['message' => 'Concern deleted successfully!']);
     }
 
+    public function status($id)
+    {
+        $status = ConcernStatusHistory::where('concern_id', $id)->get();
+        if (!$status) {
+            return response()->json(['message' => 'Concern update not found'], 404);
+        }
+
+        return response()->json(($status));
+    }
+
 
     public function resolvedToComplete(Request $request, $id)
     {

@@ -35,7 +35,7 @@ Route::middleware(['auth:sanctum', CheckIfResident::class])->group(function () {
     Route::get('/existing-verification', [VerificationResidentController::class, 'index']);
 
 
-    // For safety tips
+    // SAFETY TIPS
     Route::get('/safety-tips', [SafetyTipsController::class, 'index']);
 });
 
@@ -47,7 +47,7 @@ Route::middleware(['auth:sanctum', CheckIfVerifiedResident::class])->group(funct
     // CONCERN
     Route::apiResource('concerns', ConcernResidentController::class);
     Route::post('/concerns/resolvedToComplete/{id}', [ConcernResidentController::class, 'resolvedToComplete']);
-    Route::post('/resolved/{id}', [ConcernResidentController::class, 'resolvedToComplete']);
+    Route::get('/concerns/status/{id}', [ConcernResidentController::class, 'status']);
 });
 
 
