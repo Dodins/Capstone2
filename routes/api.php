@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\ConcernAdminController;
 use App\Http\Controllers\Admin\ConcernDisplayAdminController;
+use App\Http\Controllers\Admin\NotificationAdminController;
 use App\Http\Controllers\Admin\VerificationAdminController;
 use App\Http\Controllers\Resident\AnnouncementResidentController;
 use App\Http\Controllers\Resident\AuthResidentController;
@@ -60,3 +61,8 @@ Route::get('/incomingReports', [ConcernDisplayAdminController::class, 'incomingR
 
 //concern
 Route::get('/low-priority-reports', [ConcernDisplayAdminController::class, 'lowPriorityReports']);
+
+
+//NOTIFICATION
+Route::get('/notification', [NotificationAdminController::class, 'notification']);
+Route::post('/markAsRead', [NotificationAdminController::class, 'markAsRead']);

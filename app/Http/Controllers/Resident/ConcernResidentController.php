@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Resident;
 use App\Http\Controllers\Controller;
 use App\Models\Concern;
 use App\Models\ConcernStatusHistory;
+use App\Models\User;
+use App\Notifications\Admin\IncomingReport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 
 class ConcernResidentController extends Controller
 {
@@ -43,6 +46,9 @@ class ConcernResidentController extends Controller
             'location' => $request->location,
             'evidence' => $filePath,
         ]);
+
+        $admin = User::where('role', 'admin')->first();
+        Notification::send(($admin), new IncomingReport($concern));
 
         return response()->json($concern);
     }
