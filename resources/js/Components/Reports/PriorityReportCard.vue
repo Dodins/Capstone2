@@ -44,12 +44,11 @@ const closeProcessModal = () => {
                 class="rounded-xl dark:bg-[#3C4053] bg-[#DDE3E7] h-24 w-24 flex items-center justify-center overflow-hidden"
             >
                 <img
-                    v-if="concern.user?.avatar"
-                    :src="concern.user.avatar"
-                    :alt="concern.user?.name || 'User'"
-                    class="h-full w-full object-cover"
+                    :src="concern.evidence"
+                    alt="Evidence Image"
+                    class="h-full w-full object-cover rounded-xl"
                 />
-                <span v-else class="text-2xl">👤</span>
+                <!-- <span v-else class="text-2xl">👤</span> -->
             </div>
 
             <!-- Content -->
@@ -58,7 +57,7 @@ const closeProcessModal = () => {
                     <h1
                         class="dark:text-[#EEEEEE] text-[#222831] font-bold text-[18px]"
                     >
-                        {{ concern.title || `Report #${concern.id}` }}
+                        {{ concern.location }}
                     </h1>
                     <span
                         class="px-2 py-1 rounded-full text-xs"
@@ -89,7 +88,7 @@ const closeProcessModal = () => {
                     <div
                         class="flex items-center gap-1 dark:text-[#B0B0B0] text-[#4B5660] text-[14px]"
                     >
-                        <span>👤</span>
+                        <i class="fa-solid fa-circle-user dark:text-[#6084FF] text-[#3B5FBF]"></i>
                         <span>{{ concern.user?.name || "Anonymous" }}</span>
                     </div>
                     <div

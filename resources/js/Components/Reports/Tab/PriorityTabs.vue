@@ -31,7 +31,9 @@ const filteredConcerns = computed(() => {
 </script>
 
 <template>
-    <div class="w-full flex flex-col gap-4">
+    <div
+        class="w-full flex flex-col gap-4 flex-grow min-h-0 max-h-[calc(100vh-239px)]"
+    >
         <!-- Tabs -->
         <div class="border-b dark:border-[#3C4053] border-[#DDE3E7]">
             <div class="grid w-full grid-cols-6">

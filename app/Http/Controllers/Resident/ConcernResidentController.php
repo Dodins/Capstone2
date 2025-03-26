@@ -35,13 +35,14 @@ class ConcernResidentController extends Controller
             'evidence' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        $filePath = $request->file('evidence')->store('uploads', 'public');
+        $path = $request->file('evidence')->store('uploads', 'public');
+        $imagePath = 'storage/' . $path;
 
         $concern =  Concern::create([
             'user_id' => auth()->id(),
             'description' => $request->description,
             'location' => $request->location,
-            'evidence' => $filePath,
+            'evidence' => $imagePath,
         ]);
 
         return response()->json($concern);

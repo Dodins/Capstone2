@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\DashboardAdminController;
 use App\Http\Controllers\Admin\MapAdminController;
 use App\Http\Controllers\Admin\EventAdminController;
 use App\Http\Controllers\Admin\ConcernDisplayAdminController;
+use App\Http\Controllers\Admin\ConcernAdminController;
 
 Route::get('/', function () {
     return Inertia::render('Landing');
@@ -36,6 +37,8 @@ Route::middleware(['auth', CheckIfAdmin::class])->group(function () {
     Route::get('/high-priority-reports', [ConcernDisplayAdminController::class, 'highPriorityReports'])->name('highPriorityReports');
     Route::get('/medium-priority-reports', [ConcernDisplayAdminController::class, 'mediumPriorityReports'])->name('mediumPriorityReports');
     Route::get('/low-priority-reports', [ConcernDisplayAdminController::class, 'lowPriorityReports'])->name('lowPriorityReports');
+    Route::post('/set-priority/{id}', [ConcernAdminController::class, 'setPriority'])->name('setPriority');
+    Route::delete('/reject/{id}', [ConcernAdminController::class, 'reject'])->name('rejectIncomingReports');
 
 
     // ----------------- CALENDAR ----------------- //

@@ -9,10 +9,10 @@ const props = defineProps({
 </script>
 
 <template>
-    <Head title="Low Priority Reports" />
+    <Head title="Reports" />
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="">Medium Priority Reports</h2>
+            <h2 class="">Reports</h2>
         </template>
         <div class="h-full w-full flex flex-col gap-4">
             <div
@@ -20,7 +20,7 @@ const props = defineProps({
             >
                 <div>
                     <h1 class="dark:text-[#EEEEEE] text-[#222831] font-bold">
-                        Medium Priority Reports
+                        Medium priority peports
                     </h1>
                     <h1 class="dark:text-[#B0B0B0] text-[#4B5660] text-[14px]">
                         Review and manage Medium priority reports.

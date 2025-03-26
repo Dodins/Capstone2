@@ -5,13 +5,19 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Concern;
 use Inertia\Inertia;
+use Carbon\Carbon;
 
 class ConcernDisplayAdminController extends Controller
 {
 
     public function incomingReports()
     {
-        $incomingConcerns = Concern::whereNull('priority')->whereNull('status')->get();
+        $incomingConcerns = Concern::whereNull('priority')->whereNull('status')
+        ->get()
+        ->map(function ($concern) {
+            $concern->formatted_date = Carbon::parse($concern->created_at)->format('F j, Y');
+            return $concern;
+        });
         return Inertia::render('Reports/IncomingReports', ['incomingConcerns' => $incomingConcerns]);
     }
 
