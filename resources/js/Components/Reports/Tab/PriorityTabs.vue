@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed } from "vue";
 import { Link, usePage } from "@inertiajs/vue3";
-import LowPriorityReportCard from "../LowPriorityReportCard.vue";
+import PriorityReportCard from "../PriorityReportCard.vue";
 
 const props = defineProps({
     concerns: Array,
@@ -13,6 +13,7 @@ const statuses = [
     { key: "pending_action", label: "Pending Action" },
     { key: "resolved", label: "Resolved" },
     { key: "completed", label: "Completed" },
+    { key: "rejected", label: "Rejected" },
 ];
 
 // Get current status from URL
@@ -32,22 +33,26 @@ const filteredConcerns = computed(() => {
 <template>
     <div class="w-full flex flex-col gap-4">
         <!-- Tabs -->
-        <div
-            class="flex space-x-2 border-b dark:border-[#3C4053] border-[#DDE3E7] pb-2"
-        >
-            <Link
-                v-for="status in statuses"
-                :key="status.key"
-                :href="`?status=${status.key}`"
-                :class="[
-                    'px-4 py-2 rounded-t-lg font-medium',
-                    currentStatus === status.key
-                        ? 'dark:bg-[#3C4053] bg-[#DDE3E7] dark:text-[#EEEEEE] text-[#222831]'
-                        : 'dark:text-[#B0B0B0] text-[#4B5660] hover:dark:bg-[#2C3042] hover:bg-[#CDD3D7]',
-                ]"
-            >
-                {{ status.label }}
-            </Link>
+        <div class="border-b dark:border-[#3C4053] border-[#DDE3E7]">
+            <div class="grid w-full grid-cols-6">
+                <Link
+                    v-for="status in statuses"
+                    :key="status.key"
+                    :href="`?status=${status.key}`"
+                    class="inline-flex items-center justify-center whitespace-nowrap px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 relative h-10"
+                    :class="[
+                        currentStatus === status.key
+                            ? 'dark:text-[#EEEEEE] text-[#222831]'
+                            : 'dark:text-[#B0B0B0] text-[#4B5660] hover:dark:text-[#EEEEEE] hover:text-[#222831]',
+                    ]"
+                >
+                    {{ status.label }}
+                    <span
+                        v-if="currentStatus === status.key"
+                        class="absolute bottom-0 left-0 right-0 h-0.5 dark:bg-[#EEEEEE] bg-[#222831]"
+                    ></span>
+                </Link>
+            </div>
         </div>
 
         <!-- Reports List -->
@@ -57,7 +62,7 @@ const filteredConcerns = computed(() => {
             <div v-if="filteredConcerns.length > 0">
                 <ul class="space-y-4">
                     <li v-for="concern in filteredConcerns" :key="concern.id">
-                        <LowPriorityReportCard
+                        <PriorityReportCard
                             :concern="concern"
                             :status="currentStatus"
                         />

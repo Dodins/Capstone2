@@ -1,7 +1,7 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head } from "@inertiajs/vue3";
-import LowPriorityTabs from "../../Components/Reports/Tab/LowPriorityTabs.vue";
+import LowPriorityTabs from "../../Components/Reports/Tab/PriorityTabs.vue";
 
 const props = defineProps({
     concerns: Array,
