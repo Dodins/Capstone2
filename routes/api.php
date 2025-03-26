@@ -4,10 +4,12 @@ use App\Http\Controllers\Admin\ConcernAdminController;
 use App\Http\Controllers\Admin\ConcernDisplayAdminController;
 use App\Http\Controllers\Admin\NotificationAdminController;
 use App\Http\Controllers\Admin\VerificationAdminController;
+use App\Http\Controllers\Admin\SafetyTipsAdminController;
 use App\Http\Controllers\Resident\AnnouncementResidentController;
 use App\Http\Controllers\Resident\AuthResidentController;
 use App\Http\Controllers\Resident\ConcernResidentController;
 use App\Http\Controllers\Resident\VerificationResidentController;
+use App\Http\Controllers\Resident\SafetyTipsController;
 use App\Http\Middleware\CheckIfResident;
 use App\Http\Middleware\CheckIfVerifiedResident;
 use Illuminate\Support\Facades\Route;
@@ -16,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 // AUTHENTICATION
 Route::post('/login', [AuthResidentController::class, 'authenticate']);
 Route::post('/register', [AuthResidentController::class, 'store']);
+Route::get('/check-token', [AuthResidentController::class, 'checkToken'])->middleware('auth:sanctum');
 
 // PASSWORD RESET SYSTEM
 Route::post('/forgot-password', [AuthResidentController::class, 'forgotPassword']);
@@ -24,10 +27,16 @@ Route::post('/reset-password', [AuthResidentController::class, 'resetPassword'])
 // RESIDENT
 Route::middleware(['auth:sanctum', CheckIfResident::class])->group(function () {
 
+    Route::get('/resident', [AuthResidentController::class, 'resident']);
+
     Route::post('/logout', [AuthResidentController::class, 'destroy']);
     Route::get('/announcements', [AnnouncementResidentController::class, 'index']);
     Route::post('/submit-verification', [VerificationResidentController::class, 'store']);
     Route::get('/existing-verification', [VerificationResidentController::class, 'index']);
+
+
+    // For safety tips
+    Route::get('/safety-tips', [SafetyTipsController::class, 'index']);
 });
 
 // VERIFIED RESIDENT
