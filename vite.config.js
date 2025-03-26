@@ -12,4 +12,11 @@ export default defineConfig({
         }),
         tailwindcss(),
     ],
+    server: {
+        cors: {
+            origin: "http://192.168.100.212:8000",
+            methods: ["GET", "POST", "PUT", "DELETE"],
+            allowedHeaders: ["Content-Type", "Authorization"],
+        },
+    },
 });

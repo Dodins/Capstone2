@@ -12,6 +12,10 @@ import {
 import { Bar } from "vue-chartjs";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 
+const props = defineProps({
+    concerns: Array,
+});
+
 ChartJS.register(
     Title,
     Tooltip,

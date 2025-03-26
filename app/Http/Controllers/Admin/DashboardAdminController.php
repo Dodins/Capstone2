@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Resident;
 use App\Models\CrimeLocation;
+use App\Models\Concern;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -17,10 +18,18 @@ class DashboardAdminController extends Controller
         $residents = Resident::where('is_verified', true)->get();
         $residentCount = $residents->count();
         $crimeLocation = CrimeLocation::all();
+        $concerns = Concern::whereNotNull('priority')->whereNotNull('status')->get();
+        $highConcerns = Concern::where('priority', 'high')->count();
+        $mediumConcerns = Concern::where('priority', 'medium')->count();
+        $lowConcerns = Concern::where('priority', 'low')->count();
         return Inertia::render('Dashboard', [
             'residents' => $residents,
             'residentCount' => $residentCount,
             'crimeLocation' => $crimeLocation,
+            'concerns' => $concerns,
+            'highConcerns' => $highConcerns,
+            'mediumConcerns' => $mediumConcerns,
+            'lowConcerns' => $lowConcerns,
         ]);
     }
 }

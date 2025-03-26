@@ -14,8 +14,11 @@ const props = defineProps({
     residents: Array,
     residentCount: Number,
     crimeLocation: Array,
+    concerns: Array,
+    highConcerns: Number,
+    mediumConcerns: Number,
+    lowConcerns: Number,
 });
-
 </script>
 
 <template>
@@ -28,9 +31,9 @@ const props = defineProps({
 
         <div class="flex gap-4 w-full h-full">
             <div class="flex flex-col gap-4 w-1/6 h-full">
-                <DashboardHighReport />
-                <DashboardMediumReport />
-                <DashboardLowReport />
+                <DashboardHighReport :highConcerns="props.highConcerns" />
+                <DashboardMediumReport :mediumConcerns="props.mediumConcerns" />
+                <DashboardLowReport :lowConcerns="props.lowConcerns" />
                 <DashboardVerifiedUsers :residentCount="props.residentCount" />
             </div>
             <div class="w-3/6 h-full flex flex-col gap-4">
@@ -74,7 +77,7 @@ const props = defineProps({
                         </div>
                     </div>
                     <div class="flex flex-1 mt-4">
-                        <HistoryReports />
+                        <HistoryReports :concerns="props.concerns"/>
                     </div>
                 </div>
                 <div
@@ -83,14 +86,14 @@ const props = defineProps({
                     <h1 class="dark:text-[#EEEEEE] text-[#222831] font-bold">
                         Verified users
                     </h1>
-                    <VerifiedUsersTable :residents="props.residents"/>
+                    <VerifiedUsersTable :residents="props.residents" />
                 </div>
             </div>
             <div class="w-2/6 h-full flex flex-col gap-4">
                 <div
                     class="w-full h-1/2 dark:bg-[#3C4053] bg-[#DDE3E7] rounded-xl overflow-hidden"
                 >
-                    <Map disableClicks :crimeLocation="props.crimeLocation"/>
+                    <Map disableClicks :crimeLocation="props.crimeLocation" />
                 </div>
                 <div
                     class="w-full h-1/2 dark:bg-[#3C4053] bg-[#DDE3E7] rounded-xl flex flex-col p-4"
