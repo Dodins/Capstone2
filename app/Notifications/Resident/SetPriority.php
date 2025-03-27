@@ -2,6 +2,7 @@
 
 namespace App\Notifications\Resident;
 
+use Illuminate\Support\Str;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -27,7 +28,7 @@ class SetPriority extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['database'];
+        return ['database', 'broadcast'];
     }
 
     /**
@@ -54,6 +55,7 @@ class SetPriority extends Notification
         ];
         $status = $this->concern->status;
         return [
+            'id' => Str::uuid(),
             'user_id' => $this->concern->user_id,
             'status' => $status,
             'title' => $messages[$status][0] ?? 'Report Status Update',

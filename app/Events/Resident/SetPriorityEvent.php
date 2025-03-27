@@ -2,6 +2,8 @@
 
 namespace App\Events\Resident;
 
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -21,6 +23,7 @@ class SetPriorityEvent implements ShouldBroadcastNow
      */
     public function __construct($concern)
     {
+        Log::info("SetPriorityEvent fired", ['data' => $concern]);
         $this->concern = $concern;
     }
 
@@ -47,6 +50,7 @@ class SetPriorityEvent implements ShouldBroadcastNow
         ];
         $status = $this->concern->status;
         return [
+            'id' => Str::uuid(),
             'user_id' => $this->concern->user_id,
             'status' => $status,
             'title' => $messages[$status][0] ?? 'Report Status Update',

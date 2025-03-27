@@ -2,6 +2,7 @@
 
 namespace App\Notifications\Resident;
 
+use Illuminate\Support\Str;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -52,10 +53,12 @@ class StatusTransitionUpdate extends Notification
             'under_review' => ['Report Under Review', "We're currently reviewing your report. We will update you once we have more details."],
             'pending_action' => ['Report Investigating', 'Good news! Your report is now being processed. We will notify you once it is resolved.'],
             'resolved' => ['Report Resolved', 'Your report has been successfully resolved. If you need further assistance, feel free to reach out.'],
+            'completed' => ['Report completed', 'Your reported concern at ' . $this->concern->location . ' has been successfully addressed. We appreciate your contribution to safety!'],
         ];
 
         $status = $this->concern->status;
         return [
+            'id' => Str::uuid(),
             'user_id' => $this->concern->user_id,
             'status' => $status,
             'title' => $messages[$status][0] ?? 'Report Status Update',

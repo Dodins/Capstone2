@@ -2,6 +2,8 @@
 
 namespace App\Events\Resident;
 
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -22,6 +24,7 @@ class StatusTransitionUpdateEvent implements ShouldBroadcastNow
      */
     public function __construct(Concern $concern)
     {
+        Log::info("SetPriorityEvent fired", ['data' => $concern]);
         $this->concern = $concern;
     }
 
@@ -48,10 +51,12 @@ class StatusTransitionUpdateEvent implements ShouldBroadcastNow
             'under_review' => ['Report Under Review', "We're currently reviewing your report. We will update you once we have more details."],
             'pending_action' => ['Report Investigating', 'Good news! Your report is now being processed. We will notify you once it is resolved.'],
             'resolved' => ['Report Resolved', 'Your report has been successfully resolved. If you need further assistance, feel free to reach out.'],
+            'completed' => ['Report completed', 'Your reported concern at ' . $this->concern->location . ' has been successfully addressed. We appreciate your contribution to safety!'],
         ];
 
         $status = $this->concern->status;
         return [
+            'id' => Str::uuid(),
             'user_id' => $this->concern->user_id,
             'status' => $status,
             'title' => $messages[$status][0] ?? 'Report Status Update',
