@@ -27,10 +27,9 @@ class SosController extends Controller
             'longitude' => $request->longitude,
         ]);
 
-        event(new SosAlertEvent($sos));
-
         $admin = User::where('role', 'admin')->first();
         Notification::send($admin, new NewSosAlert($sos));
+        event(new SosAlertEvent($sos));
 
         return response()->json([
             'success' => true,

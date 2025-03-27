@@ -55,6 +55,7 @@ class NewSosAlert extends Notification
             'created_at' => $this->sos->created_at,
             'name' => $this->sos->user->name. ' needs help urgently!',
             'email' => $this->sos->user->email,
+            'phone_number' => $this->sos->user->resident->phone_number,
             'is_seen' => $this->sos->is_seen ? 'Seen' : 'Unseen',
         ];
     }

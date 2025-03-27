@@ -163,6 +163,7 @@ const submitForm = async () => {
 <template>
     <div
         class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+        @click.self="closeModal"
     >
         <div
             class="bg-white dark:bg-[#222831] rounded-lg shadow-lg w-full max-w-md max-h-[90vh] overflow-auto"

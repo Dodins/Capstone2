@@ -66,6 +66,7 @@ const submit = async () => {
     <form @submit.prevent="submit" class="h-full">
         <div
             class="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
+            @click.self="close"
         >
             <div
                 class="dark:bg-[#3C4053] bg-[#DDE3E7] p-4 rounded-[6px] relative flex flex-col gap-12"

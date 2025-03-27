@@ -1,7 +1,8 @@
 <script setup>
-import { ref } from "vue";
+import { ref, watch, onMounted, onUnmounted } from "vue";
 import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 import ProfilePicture from "@/Components/ProfilePicture.vue";
+import SosAlertModal from "../Components/Modal/SosAlertModal.vue";
 import NavLink from "@/Components/NavLink.vue";
 import Submenu from "@/Components/Submenu.vue";
 import {
@@ -28,6 +29,33 @@ import {
     BellIcon as BellIconOutline,
     MoonIcon as MoonIconOutline,
 } from "@heroicons/vue/24/outline";
+
+const showSosModal = ref(false);
+const sosAlertData = ref(null);
+
+// Function to handle incoming SOS alerts
+const handleSosAlert = (event) => {
+    sosAlertData.value = event;
+    showSosModal.value = true;
+};
+
+// Setup Echo listener on component mount
+onMounted(() => {
+    window.Echo.channel("sos-alerts").listen(".sos.alerts", (event) => {
+        handleSosAlert(event);
+    });
+});
+
+// Clean up listener on component unmount
+onUnmounted(() => {
+    window.Echo.leave("sos-alerts");
+});
+
+// Method to close the modal
+const closeSosModal = () => {
+    showSosModal.value = false;
+    sosAlertData.value = null;
+};
 </script>
 
 <template>
@@ -91,7 +119,9 @@ import {
                             {
                                 label: 'Medium priority',
                                 href: route('mediumPriorityReports'),
-                                active: route().current('mediumPriorityReports'),
+                                active: route().current(
+                                    'mediumPriorityReports'
+                                ),
                             },
                             {
                                 label: 'Low priority',
@@ -178,4 +208,9 @@ import {
             </main>
         </div>
     </div>
+    <SosAlertModal
+        v-if="showSosModal"
+        :sosData="sosAlertData"
+        @close="closeSosModal"
+    />
 </template>

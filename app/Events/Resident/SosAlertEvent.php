@@ -43,7 +43,7 @@ class SosAlertEvent implements ShouldBroadcastNow
             'longitude' => $this->sos->longitude,
             'name' => $this->sos->user->name,
             'email' => $this->sos->user->email,
-            'phone_number' => $this->sos->user->phone_number,
+            'phone_number' => $this->sos->user->resident->phone_number,
         ];
     }
 }
