@@ -166,7 +166,7 @@ const submitForm = async () => {
         @click.self="closeModal"
     >
         <div
-            class="bg-white dark:bg-[#222831] rounded-lg shadow-lg w-full max-w-md max-h-[90vh] overflow-auto"
+            class="bg-[#DDE3E7] dark:bg-[#222831] rounded-xl w-full max-w-md max-h-[90vh] overflow-auto"
         >
             <div class="p-6">
                 <div class="flex items-center justify-between mb-4">

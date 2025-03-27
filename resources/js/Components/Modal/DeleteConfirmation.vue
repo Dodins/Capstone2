@@ -46,7 +46,7 @@ const confirmDelete = async () => {
         @click.self="close"
     >
         <div
-            class="dark:bg-[#3C4053] bg-[#DDE3E7] p-4 rounded-[6px] relative flex flex-col gap-12 border-t-4 dark:border-[#FF6666] border-[#FF4D4D]"
+            class="dark:bg-[#222831] bg-[#DDE3E7] p-4 rounded-[6px] relative flex flex-col gap-12 border-t-4 dark:border-[#FF6666] border-[#FF4D4D]"
         >
             <div class="flex flex-col">
                 <div

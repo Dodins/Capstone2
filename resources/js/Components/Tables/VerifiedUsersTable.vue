@@ -5,7 +5,6 @@ import axios from "axios";
 const props = defineProps({
     residents: Array,
 });
-
 </script>
 
 <template>
@@ -44,8 +43,12 @@ const props = defineProps({
                             class="mb-2 flex-1 items-center flex justify-center h-full"
                         >
                             <div
-                                class="dark:bg-[#6084FF] bg-[#3B5FBF] rounded-full w-8 h-8"
-                            ></div>
+                                class="bg-[#EEEEEE] rounded-full w-8 h-8 flex justify-center item-center"
+                            >
+                                <i
+                                    class="text-4xl fa-solid fa-circle-user dark:text-[#6084FF] text-[#3B5FBF]"
+                                ></i>
+                            </div>
                         </td>
                         <td
                             class="mb-2 truncate max-w-[200px] ps-4 dark:text-[#EEEEEE] text-[#222831] text-[14px] font-bold"
