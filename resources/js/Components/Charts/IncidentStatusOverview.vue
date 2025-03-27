@@ -6,6 +6,26 @@ import ChartDataLabels from "chartjs-plugin-datalabels";
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement, ChartDataLabels);
 
+// Define props to receive the concerns data from the parent component
+const props = defineProps({
+    newConcerns: {
+        type: Number,
+        default: 0,
+    },
+    investigatingConcerns: {
+        type: Number,
+        default: 0,
+    },
+    completedConcerns: {
+        type: Number,
+        default: 0,
+    },
+    rejectedConcerns: {
+        type: Number,
+        default: 0,
+    },
+});
+
 const isDarkMode = ref(false);
 
 const checkDarkMode = () => {
@@ -22,10 +42,11 @@ onMounted(() => {
     });
 });
 
-const chartColors = computed(() =>
-    isDarkMode.value
-        ? ["#FBC02D", "#1976D2", "#1B5E20", "#B71C1C"]
-        : ["#FFAE00", "#2196F3", "#4CAF50", "#FF4D4D"]
+const chartColors = computed(
+    () =>
+        isDarkMode.value
+            ? ["#1976D2", "#FBC02D", "#1B5E20", "#B71C1C"] // Dark mode colors
+            : ["#2196F3", "#FFAE00", "#4CAF50", "#FF4D4D"] // Light mode colors
 );
 
 const shadowPlugin = {
@@ -54,11 +75,16 @@ const chartData = computed(() => ({
     labels: ["New", "Investigating", "Completed", "Rejected"],
     datasets: [
         {
-            label: "Concern",
+            label: "Concerns",
             backgroundColor: chartColors.value,
             borderColor: "transparent",
             borderRadius: 10,
-            data: [50, 90, 120, 150],
+            data: [
+                props.newConcerns,
+                props.investigatingConcerns,
+                props.completedConcerns,
+                props.rejectedConcerns,
+            ],
         },
     ],
 }));

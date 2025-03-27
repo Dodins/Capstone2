@@ -18,6 +18,11 @@ const props = defineProps({
     highConcerns: Number,
     mediumConcerns: Number,
     lowConcerns: Number,
+
+    newConcerns: Number,
+    investigatingConcerns: Number,
+    completedConcerns: Number,
+    rejectedConcerns: Number,
 });
 </script>
 
@@ -77,7 +82,7 @@ const props = defineProps({
                         </div>
                     </div>
                     <div class="flex flex-1 mt-4">
-                        <HistoryReports :concerns="props.concerns"/>
+                        <HistoryReports :concerns="props.concerns" />
                     </div>
                 </div>
                 <div
@@ -106,7 +111,12 @@ const props = defineProps({
                     </h1>
 
                     <div class="h-full w-full">
-                        <IncidentStatusOverview />
+                        <IncidentStatusOverview
+                            :newConcerns="newConcerns"
+                            :investigatingConcerns="investigatingConcerns"
+                            :completedConcerns="completedConcerns"
+                            :rejectedConcerns="rejectedConcerns"
+                        />
                     </div>
                 </div>
             </div>

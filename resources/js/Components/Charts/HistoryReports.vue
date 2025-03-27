@@ -11,9 +11,13 @@ import {
 } from "chart.js";
 import { Bar } from "vue-chartjs";
 import ChartDataLabels from "chartjs-plugin-datalabels";
+import { parseISO, format, subDays } from "date-fns";
 
 const props = defineProps({
-    concerns: Array,
+    concerns: {
+        type: Array,
+        default: () => [],
+    },
 });
 
 ChartJS.register(
@@ -58,19 +62,48 @@ const createGradient = (ctx, startColor, midColor, endColor) => {
     return gradient;
 };
 
-const chartData = computed(() => ({
-    labels: ["Jan", "Feb", "Mar", "Apr", "May"],
-    datasets: [
-        {
-            label: "Concern Status",
-            backgroundColor: chartColors.value,
-            borderRadius: 4,
-            data: [50, 90, 120, 150, 50],
-            categoryPercentage: 0.9,
-            barPercentage: 1.0,
-        },
-    ],
-}));
+const chartData = computed(() => {
+    // If no concerns, return empty data
+    if (!props.concerns.length) {
+        return {
+            labels: [],
+            datasets: [
+                {
+                    label: "Concerns per Day",
+                    data: [],
+                    backgroundColor: chartColors.value,
+                },
+            ],
+        };
+    }
+
+    // Generate last 5 days
+    const last5Days = Array.from({ length: 5 }, (_, i) =>
+        format(subDays(new Date(), i), "yyyy-MM-dd")
+    ).reverse();
+
+    // Count concerns for each of the last 5 days
+    const dailyConcernCounts = last5Days.map((day) => {
+        return props.concerns.filter(
+            (concern) =>
+                format(parseISO(concern.created_at), "yyyy-MM-dd") === day
+        ).length;
+    });
+
+    return {
+        labels: last5Days.map((day) => format(new Date(day), "MMM dd")),
+        datasets: [
+            {
+                label: "Concerns per Day",
+                backgroundColor: chartColors.value,
+                borderRadius: 4,
+                data: dailyConcernCounts,
+                categoryPercentage: 0.9,
+                barPercentage: 1.0,
+            },
+        ],
+    };
+});
 
 const chartOptions = computed(() => ({
     responsive: true,
@@ -105,6 +138,9 @@ const chartOptions = computed(() => ({
         },
         datalabels: {
             color: "#EEEEEE",
+            display: function (context) {
+                return context.dataset.data[context.dataIndex] > 0;
+            },
             align: "center",
             font: {
                 family: "'Quicksand', sans-serif",

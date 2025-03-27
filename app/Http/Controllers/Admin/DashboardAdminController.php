@@ -22,6 +22,11 @@ class DashboardAdminController extends Controller
         $highConcerns = Concern::where('priority', 'high')->count();
         $mediumConcerns = Concern::where('priority', 'medium')->count();
         $lowConcerns = Concern::where('priority', 'low')->count();
+
+        $newConcerns = Concern::where('status', 'new')->count();
+        $investigatingConcerns = Concern::whereIn('status', ['under_review', 'pending_action', 'resolved'])->count();
+        $completedConcerns = Concern::where('status', 'completed')->count();
+        $rejectedConcerns = Concern::where('status', 'rejected')->count();
         return Inertia::render('Dashboard', [
             'residents' => $residents,
             'residentCount' => $residentCount,
@@ -30,6 +35,11 @@ class DashboardAdminController extends Controller
             'highConcerns' => $highConcerns,
             'mediumConcerns' => $mediumConcerns,
             'lowConcerns' => $lowConcerns,
+
+            'newConcerns' => $newConcerns,
+            'investigatingConcerns' => $investigatingConcerns,
+            'completedConcerns' => $completedConcerns,
+            'rejectedConcerns' => $rejectedConcerns,
         ]);
     }
 }
