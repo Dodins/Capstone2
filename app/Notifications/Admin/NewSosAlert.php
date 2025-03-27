@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Notifications\Resident;
+namespace App\Notifications\Admin;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class StatusTransitionUpdate extends Notification
+class NewSosAlert extends Notification
 {
     use Queueable;
-    protected $concern;
+    public $sos;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($concern)
+    public function __construct($sos)
     {
-        $this->concern = $concern;
+        $this->sos = $sos;
     }
 
     /**
@@ -48,19 +48,14 @@ class StatusTransitionUpdate extends Notification
      */
     public function toArray(object $notifiable): array
     {
-        $messages = [
-            'under_review' => ['Report Under Review', "We're currently reviewing your report. We will update you once we have more details."],
-            'pending_action' => ['Report Investigating', 'Good news! Your report is now being processed. We will notify you once it is resolved.'],
-            'resolved' => ['Report Resolved', 'Your report has been successfully resolved. If you need further assistance, feel free to reach out.'],
-        ];
-
-        $status = $this->concern->status;
         return [
-            'user_id' => $this->concern->user_id,
-            'status' => $status,
-            'title' => $messages[$status][0] ?? 'Report Status Update',
-            'message' => $messages[$status][1] ?? 'Your report status has been updated.',
-            'date' => now(),
+            'sos_id' => $this->sos->id,
+            'user_id' => $this->sos->user_id,
+            'message' => $this->sos->message,
+            'created_at' => $this->sos->created_at,
+            'name' => $this->sos->user->name. ' needs help urgently!',
+            'email' => $this->sos->user->email,
+            'is_seen' => $this->sos->is_seen ? 'Seen' : 'Unseen',
         ];
     }
 }

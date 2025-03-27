@@ -89,9 +89,9 @@ class ConcernAdminController extends Controller
 
         $concernUpdate = ConcernStatusHistory::create($data);
 
-        Log::info("New concern status history created for concern ID: $id", [
-            'data' => $data,
-        ]);
+        $authUser = User::find($concern->user_id);
+        Notification::send($authUser, new StatusTransitionUpdate($concern));
+        event(new StatusTransitionUpdateEvent($concern));
 
         return response()->json([
             'concern' => $concernUpdate,

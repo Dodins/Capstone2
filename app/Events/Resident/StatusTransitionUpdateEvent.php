@@ -7,18 +7,20 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use App\Models\Concern as Concern;
 
-class StatusTransitionUpdateEvent
+class StatusTransitionUpdateEvent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public  $concern;
+    public Concern $concern;
     /**
      * Create a new event instance.
      */
-    public function __construct($concern)
+    public function __construct(Concern $concern)
     {
         $this->concern = $concern;
     }
@@ -32,7 +34,6 @@ class StatusTransitionUpdateEvent
     {
         return [
             new Channel('update-status' . '.' . $this->concern->user_id),
-            Log::info("StatusTransitionUpdateEvent fired for user: {$concern->user_id}, status: {$concern->status}"),
         ];
     }
 
@@ -45,7 +46,7 @@ class StatusTransitionUpdateEvent
     {
         $messages = [
             'under_review' => ['Report Under Review', "We're currently reviewing your report. We will update you once we have more details."],
-            'in_progress' => ['Report Investigating', 'Good news! Your report is now being processed. We will notify you once it is resolved.'],
+            'pending_action' => ['Report Investigating', 'Good news! Your report is now being processed. We will notify you once it is resolved.'],
             'resolved' => ['Report Resolved', 'Your report has been successfully resolved. If you need further assistance, feel free to reach out.'],
         ];
 

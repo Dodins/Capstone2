@@ -13,6 +13,7 @@ use App\Http\Controllers\Resident\SafetyTipsController;
 use App\Http\Controllers\Resident\EventController;
 use App\Http\Controllers\Resident\MapController;
 use App\Http\Controllers\Resident\ConcerUpdateStatusNotificationController;
+use App\Http\Controllers\Resident\SosController;
 use App\Http\Middleware\CheckIfResident;
 use App\Http\Middleware\CheckIfVerifiedResident;
 use Illuminate\Support\Facades\Route;
@@ -63,6 +64,10 @@ Route::middleware(['auth:sanctum', CheckIfVerifiedResident::class])->group(funct
 
     // NOTIFICATIONS
     Route::get('/notifications', [ConcerUpdateStatusNotificationController::class, 'index']);
+
+
+    //SOS
+    Route::post('/send-sos', [SosController::class, 'sendSOS']);
 });
 
 

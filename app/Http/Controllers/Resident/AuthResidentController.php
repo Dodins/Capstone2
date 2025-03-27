@@ -90,16 +90,18 @@ class AuthResidentController extends Controller
         $token = $request->user()->createToken($request->email)->plainTextToken;
 
         return response()->json([
-            'message' => 'Login Succesful.',
+            'id' => $user->id,
             'token' => $token,
         ]);
     }
 
     public function destroy(Request $request)
     {
-        $request->user()->tokens()->delete();
+        $user = Auth::user();
 
-        return response()->json('Log out succesfully!');
+        $user->tokens()->delete();
+
+        return response()->json(['message' => 'Logged out successfully']);
     }
 
     public function forgotPassword(Request $request)
