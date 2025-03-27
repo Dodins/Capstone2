@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\Admin\AuthAdminController;
 use App\Http\Controllers\Admin\VerificationAdminController;
 use App\Http\Controllers\Admin\AnnouncementAdminController;
+use App\Http\Controllers\Admin\ChartDisplayAdminController;
 use App\Http\Controllers\Admin\DashboardAdminController;
 use App\Http\Controllers\Admin\MapAdminController;
 use App\Http\Controllers\Admin\EventAdminController;
@@ -70,4 +71,7 @@ Route::middleware(['auth', CheckIfAdmin::class])->group(function () {
     Route::get('/verification', [VerificationAdminController::class, 'verification'])->name('verification');
     Route::put('/accept-verification/{id}/accept', [VerificationAdminController::class, 'accept'])->name('acceptVerification');
     Route::put('/reject-verification/{id}/reject', [VerificationAdminController::class, 'reject'])->name('rejectVerification');
+
+    // ----------------- CHART ----------------- //
+    Route::get('/daily-reports', [ChartDisplayAdminController::class, 'showDailyReports'])->name('dailyReports');
 });
