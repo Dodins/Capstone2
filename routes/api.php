@@ -10,6 +10,9 @@ use App\Http\Controllers\Resident\AuthResidentController;
 use App\Http\Controllers\Resident\ConcernResidentController;
 use App\Http\Controllers\Resident\VerificationResidentController;
 use App\Http\Controllers\Resident\SafetyTipsController;
+use App\Http\Controllers\Resident\EventController;
+use App\Http\Controllers\Resident\MapController;
+use App\Http\Controllers\Resident\ConcerUpdateStatusNotificationController;
 use App\Http\Middleware\CheckIfResident;
 use App\Http\Middleware\CheckIfVerifiedResident;
 use Illuminate\Support\Facades\Route;
@@ -35,6 +38,14 @@ Route::middleware(['auth:sanctum', CheckIfResident::class])->group(function () {
     Route::get('/existing-verification', [VerificationResidentController::class, 'index']);
 
 
+    // FOR EVENTS
+    Route::get('/events', [EventController::class, 'index']);
+
+
+    // FOR MAP
+    Route::get('/map/markers', [MapController::class, 'index']);
+
+
     // SAFETY TIPS
     Route::get('/safety-tips', [SafetyTipsController::class, 'index']);
 });
@@ -48,6 +59,10 @@ Route::middleware(['auth:sanctum', CheckIfVerifiedResident::class])->group(funct
     Route::apiResource('concerns', ConcernResidentController::class);
     Route::post('/concerns/resolvedToComplete/{id}', [ConcernResidentController::class, 'resolvedToComplete']);
     Route::get('/concerns/status/{id}', [ConcernResidentController::class, 'status']);
+
+
+    // NOTIFICATIONS
+    Route::get('/notifications', [ConcerUpdateStatusNotificationController::class, 'index']);
 });
 
 
