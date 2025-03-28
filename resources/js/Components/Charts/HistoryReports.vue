@@ -166,11 +166,7 @@ defineExpose({
 });
 
 const chartColors = computed(() => {
-    const ctx = document.createElement("canvas").getContext("2d");
-
-    return isDarkMode.value
-        ? createGradient(ctx, "#6084FF", "#6084FF", "rgba(60, 64, 83, 0.5)")
-        : createGradient(ctx, "#3B5FBF", "#3B5FBF", "rgba(221, 227, 231, 0.5)");
+    return isDarkMode.value ? "#6084FF" : "#3B5FBF";
 });
 
 const createGradient = (ctx, startColor, midColor, endColor) => {

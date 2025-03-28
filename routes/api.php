@@ -91,8 +91,3 @@ Route::get('/incomingReports', [ConcernDisplayAdminController::class, 'incomingR
 
 //concern
 Route::get('/low-priority-reports', [ConcernDisplayAdminController::class, 'lowPriorityReports']);
-
-
-//NOTIFICATION
-Route::get('/notification', [NotificationAdminController::class, 'notification']);
-Route::post('/markAsRead', [NotificationAdminController::class, 'markAsRead']);

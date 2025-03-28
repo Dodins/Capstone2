@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\MapAdminController;
 use App\Http\Controllers\Admin\EventAdminController;
 use App\Http\Controllers\Admin\ConcernDisplayAdminController;
 use App\Http\Controllers\Admin\ConcernAdminController;
+use App\Http\Controllers\Admin\NotificationAdminController;
 
 Route::get('/', function () {
     return Inertia::render('Landing');
@@ -70,4 +71,8 @@ Route::middleware(['auth', CheckIfAdmin::class])->group(function () {
     Route::get('/verification', [VerificationAdminController::class, 'verification'])->name('verification');
     Route::put('/accept-verification/{id}/accept', [VerificationAdminController::class, 'accept'])->name('acceptVerification');
     Route::put('/reject-verification/{id}/reject', [VerificationAdminController::class, 'reject'])->name('rejectVerification');
+
+    //NOTIFICATION
+    Route::get('/notification', [NotificationAdminController::class, 'notification']);
+    Route::post('/markAsRead', [NotificationAdminController::class, 'markAsRead']);
 });
