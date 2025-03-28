@@ -120,16 +120,36 @@ onMounted(() => {
     <div
         v-if="showNotifications"
         id="notification-dropdown"
-        class="notification-dropdown"
+        class="absolute top-10 right-0 z-50 dark:bg-[#2C2F40] bg-[#EAEFF2] rounded-xl pb-6"
     >
-        <div class="dropdown-header">
+        <div
+            class="font-bold dark:text-[#EEEEEE] text-[#222831] text-[18px] mt-6 ms-6"
+        >
             <h3>Notifications</h3>
         </div>
 
-        <div class="dropdown-content">
-            <div v-if="loading" class="loading-state">
-                <div class="loading-spinner"></div>
-                <p>Loading notifications...</p>
+        <div class="no-scrollbar overflow-y-auto h-104 w-96 mt-2">
+            <div
+                v-if="loading"
+                class="h-full w-full flex items-center justify-center"
+            >
+                <svg
+                    aria-hidden="true"
+                    class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 dark:fill-[#6084FF] fill-[#3B5FBF]"
+                    viewBox="0 0 100 101"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path
+                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                        fill="currentColor"
+                    />
+                    <path
+                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                        fill="currentFill"
+                    />
+                </svg>
+                <span class="sr-only">Loading...</span>
             </div>
 
             <div v-else-if="error" class="error-state">
@@ -147,17 +167,25 @@ onMounted(() => {
                 <div
                     v-for="notification in notifications"
                     :key="notification.id"
-                    class="notification-item"
+                    class="hover:dark:bg-[#343950] hover:bg-[#F5F7F9] transition-colors duration-300 ease-in-out ps-6 pb-3 pe-6 pt-3"
                 >
-                    <div class="notification-content">
-                        <div class="notification-title">
-                            {{ notification.data.title || "Notification" }}
+                    <div class="flex flex-col gap-1">
+                        <div class="flex justify-between">
+                            <div
+                                class="dark:text-[#EEEEEE] text-[#222831] font-bold text-[14px]"
+                            >
+                                {{ notification.data.message }}
+                            </div>
+                            <div
+                                class="dark:text-[#666A6D] text-[#A0A5AA] text-[14px]"
+                            >
+                                {{ formatDate(notification.created_at) }}
+                            </div>
                         </div>
-                        <div class="notification-message">
-                            {{ notification.data.message }}
-                        </div>
-                        <div class="notification-time">
-                            {{ formatDate(notification.created_at) }}
+                        <div
+                            class="dark:text-[#B0B0B0] text-[#4B5660] text-[14px]"
+                        >
+                            {{ notification.data.name }}
                         </div>
                     </div>
                 </div>
@@ -167,116 +195,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.notification-dropdown {
-    position: absolute;
-    top: 60px;
-    right: 80px;
-    width: 320px;
-    max-height: 400px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    z-index: 50;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-}
-
-.dark .notification-dropdown {
-    background-color: #2a2e3f;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-.dropdown-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 16px;
-    border-bottom: 1px solid #e5e7eb;
-}
-
-.dark .dropdown-header {
-    border-bottom: 1px solid #3c4053;
-}
-
-.dropdown-header h3 {
-    font-weight: 600;
-    font-size: 16px;
-    color: #222831;
-}
-
-.dark .dropdown-header h3 {
-    color: #eeeeee;
-}
-
-.dropdown-content {
-    overflow-y: auto;
-    flex: 1;
-    max-height: 350px;
-}
-
-.notification-item {
-    padding: 12px 16px;
-    border-bottom: 1px solid #e5e7eb;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.notification-item:last-child {
-    border-bottom: none;
-}
-
-.notification-item:hover {
-    background-color: #f9fafb;
-}
-
-.dark .notification-item {
-    border-bottom: 1px solid #3c4053;
-}
-
-.dark .notification-item:hover {
-    background-color: #343950;
-}
-
-.notification-content {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.notification-title {
-    font-weight: 600;
-    font-size: 14px;
-    color: #222831;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.dark .notification-title {
-    color: #eeeeee;
-}
-
-.notification-message {
-    font-size: 13px;
-    color: #4b5660;
-    line-height: 1.4;
-}
-
-.dark .notification-message {
-    color: #b0b0b0;
-}
-
-.notification-time {
-    font-size: 12px;
-    color: #6b7280;
-    margin-top: 4px;
-}
-
-.dark .notification-time {
-    color: #9ca3af;
-}
-
 .loading-state,
 .error-state,
 .empty-state {
@@ -324,11 +242,5 @@ onMounted(() => {
 
 .dark .retry-btn {
     background-color: #6084ff;
-}
-
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
 }
 </style>

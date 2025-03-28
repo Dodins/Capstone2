@@ -27,9 +27,6 @@ const props = defineProps({
                         Review pending user submissions for approval.
                     </h1>
                 </div>
-                <h1 class="dark:text-[#EEEEEE] text-[#222831] font-bold">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </h1>
             </div>
             <div class="h-14/16 w-full pt-4">
                 <VerificationRequestTable :residents="props.residents" />

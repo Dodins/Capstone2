@@ -166,11 +166,15 @@ defineExpose({
 });
 
 const chartColors = computed(() => {
-    return isDarkMode.value ? "#6084FF" : "#3B5FBF";
+    const ctx = document.createElement("canvas").getContext("2d");
+
+    return isDarkMode.value
+        ? createGradient(ctx, "#6084FF", "#6084FF", "rgba(60, 64, 83, 0.5)")
+        : createGradient(ctx, "#3B5FBF", "#3B5FBF", "rgba(221, 227, 231, 0.5)");
 });
 
 const createGradient = (ctx, startColor, midColor, endColor) => {
-    const gradient = ctx.createLinearGradient(0, 0, 0, 250);
+    const gradient = ctx.createLinearGradient(0, 0, 0, 400);
     gradient.addColorStop(0, startColor);
     gradient.addColorStop(0.5, midColor);
     gradient.addColorStop(1, endColor);

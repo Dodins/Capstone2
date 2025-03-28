@@ -242,7 +242,10 @@ const truncateText = (text, length = 25) => {
                             <span
                                 class="inline-flex items-center justify-center px-2 py-0.5 text-xs rounded-full dark:bg-[#3C4053] bg-[#DDE3E7] dark:text-[#EEEEEE] text-[#222831]"
                             >
-                                {{ resident.gender }}
+                                {{
+                                    resident.gender.charAt(0).toUpperCase() +
+                                    resident.gender.slice(1)
+                                }}
                             </span>
                         </td>
                         <td
@@ -347,24 +350,6 @@ const truncateText = (text, length = 25) => {
 </template>
 
 <style scoped>
-/* Custom scrollbar */
-.no-scrollbar::-webkit-scrollbar {
-    width: 5px;
-}
-
-.no-scrollbar::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.no-scrollbar::-webkit-scrollbar-thumb {
-    background-color: rgba(156, 163, 175, 0.5);
-    border-radius: 20px;
-}
-
-.dark .no-scrollbar::-webkit-scrollbar-thumb {
-    background-color: rgba(75, 85, 99, 0.5);
-}
-
 /* Smooth transitions */
 tr {
     transition: all 0.2s ease-in-out;

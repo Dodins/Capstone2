@@ -86,12 +86,12 @@ onMounted(() => {
     });
 
     // Listen for new notification events if you have them
-    window.Echo.private("App.Models.User." + userId).notification(
-        (notification) => {
-            // Increment the unread count when a new notification arrives
-            unreadNotifications.value++;
-        }
-    );
+    // window.Echo.private("App.Models.User." + userId).notification(
+    //     (notification) => {
+    //         // Increment the unread count when a new notification arrives
+    //         unreadNotifications.value++;
+    //     }
+    // );
 });
 
 // Clean up listener on component unmount
@@ -247,25 +247,21 @@ const closeSosModal = () => {
                     />
                     <!-- Updated Bell Icon with notification indicator -->
                     <div class="relative">
-                        <button
+                        <BellIcon
+                            class="h-6 w-6 text-[#3B5FBF] dark:text-[#6084FF]"
                             @click="toggleNotifications"
-                            class="notification-bell focus:outline-none"
+                        />
+                        <!-- Notification badge -->
+                        <span
+                            v-if="unreadNotifications > 0"
+                            class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center"
                         >
-                            <BellIcon
-                                class="h-6 w-6 text-[#3B5FBF] dark:text-[#6084FF]"
-                            />
-                            <!-- Notification badge -->
-                            <span
-                                v-if="unreadNotifications > 0"
-                                class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center"
-                            >
-                                {{
-                                    unreadNotifications > 9
-                                        ? "9+"
-                                        : unreadNotifications
-                                }}
-                            </span>
-                        </button>
+                            {{
+                                unreadNotifications > 9
+                                    ? "9+"
+                                    : unreadNotifications
+                            }}
+                        </span>
                         <!-- Notification dropdown -->
                         <NotificationDropdown
                             :showNotifications="showNotifications"
@@ -287,12 +283,3 @@ const closeSosModal = () => {
         @close="closeSosModal"
     />
 </template>
-
-<style scoped>
-.notification-bell {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-</style>
