@@ -4,6 +4,7 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import InputError from "@/Components/InputError.vue";
 import { Head, useForm } from "@inertiajs/vue3";
+import { ref } from "vue";
 
 const form = useForm({
     title: "",
@@ -12,6 +13,9 @@ const form = useForm({
     color: "",
     schedule: [{ start_time: "", end_time: "", description: "" }],
 });
+
+const today = new Date().toISOString().split("T")[0];
+const minDate = ref(today);
 
 const addSchedule = () => {
     form.schedule.push({ start_time: "", end_time: "", description: "" });
@@ -65,6 +69,7 @@ const submit = () => {
                                 v-model="form.date"
                                 type="date"
                                 placeholder="Date"
+                                :min="minDate"
                                 class="dark:text-[#B0B0B0] text-[#4B5660] border-2 dark:border-[#3C4053] border-[#DDE3E7] rounded-xl py-4 px-4 w-full"
                             />
                             <InputError
@@ -151,8 +156,15 @@ const submit = () => {
                                 :style="{ backgroundColor: form.color }"
                             ></div>
                         </div>
-                        <h1 id="colorText" class="ml-3 text-[#4B5660] dark:text-[#B0B0B0]">
-                            {{ form.color ? `Selected Color: ${form.color}` : 'Select a color for your event.' }}
+                        <h1
+                            id="colorText"
+                            class="ml-3 text-[#4B5660] dark:text-[#B0B0B0]"
+                        >
+                            {{
+                                form.color
+                                    ? `Selected Color: ${form.color}`
+                                    : "Select a color for your event."
+                            }}
                         </h1>
                     </div>
                     <PrimaryButton

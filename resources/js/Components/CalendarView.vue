@@ -37,7 +37,7 @@ const calendarOptions = computed(() => ({
         backgroundColor: event.color,
         borderColor: event.color,
     })),
-    contentHeight: "auto",
+    contentHeight: "100%",
     dateClick: onDateClick,
     selectable: true,
 }));
