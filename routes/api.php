@@ -87,7 +87,8 @@ Route::post('/reject/{id}', [ConcernAdminController::class, 'reject']);
 Route::get('/concern-display/{priority}', [ConcernDisplayAdminController::class, 'priorityConcerns']);
 Route::get('/incomingReports', [ConcernDisplayAdminController::class, 'incomingReports']);
 
-
+Route::post('/safety-tips/store', [SafetyTipsAdminController::class, 'store']);
+Route::get('/safety-tips', [SafetyTipsAdminController::class, 'index']);
 
 //concern
 Route::get('/low-priority-reports', [ConcernDisplayAdminController::class, 'lowPriorityReports']);
