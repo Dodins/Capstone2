@@ -33,7 +33,6 @@ class DatabaseSeeder extends Seeder
             'email' => 'test1@example.com',
             'password' => Hash::make('12345678'),
             'role' => 'resident',
-            'is_verified' => true,
 
         ]);
 
@@ -42,7 +41,6 @@ class DatabaseSeeder extends Seeder
             'email' => 'test2@example.com',
             'password' => Hash::make('12345678'),
             'role' => 'resident',
-            'is_verified' => true,
 
 
         ]);

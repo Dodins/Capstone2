@@ -9,6 +9,7 @@ import DashboardMediumReport from "@/Components/Reports/DashboardMediumReport.vu
 import DashboardLowReport from "@/Components/Reports/DashboardLowReport.vue";
 import DashboardVerifiedUsers from "@/Components/Reports/DashboardVerifiedUsers.vue";
 import { Head } from "@inertiajs/vue3";
+import { ref, onMounted } from "vue";
 
 const props = defineProps({
     residents: Array,
@@ -23,6 +24,156 @@ const props = defineProps({
     investigatingConcerns: Number,
     completedConcerns: Number,
     rejectedConcerns: Number,
+});
+
+// References for pagination controls
+const historyReportsRef = ref(null);
+const prevPageBtn = ref(null);
+const nextPageBtn = ref(null);
+const chartData = ref([]);
+const isExporting = ref(false);
+
+// Handle pagination button clicks
+const handlePrevPage = () => {
+    if (historyReportsRef.value) {
+        historyReportsRef.value.prevPage();
+    }
+};
+
+const handleNextPage = () => {
+    if (historyReportsRef.value) {
+        historyReportsRef.value.nextPage();
+    }
+};
+
+// Update button states based on pagination state
+const updatePaginationButtons = (state) => {
+    if (prevPageBtn.value) {
+        prevPageBtn.value.disabled = !state.canGoPrev;
+    }
+
+    if (nextPageBtn.value) {
+        nextPageBtn.value.disabled = !state.canGoNext;
+    }
+};
+
+// Store chart data for export
+const handleChartDataReady = (data) => {
+    chartData.value = data;
+};
+
+// Export data to Excel
+const exportToExcel = async () => {
+    if (!chartData.value.length) {
+        alert("No data available to export");
+        return;
+    }
+
+    try {
+        isExporting.value = true;
+
+        // Dynamically import the xlsx library
+        const XLSX = await import("xlsx");
+
+        // Format data for Excel
+        const data = chartData.value.map((item) => ({
+            Date: item.formattedDate,
+            "Number of Reports": item.count,
+        }));
+
+        // Create worksheet
+        const worksheet = XLSX.utils.json_to_sheet(data);
+
+        // Set column widths
+        const columnWidths = [
+            { wch: 15 }, // Date column
+            { wch: 20 }, // Number of Reports column
+        ];
+        worksheet["!cols"] = columnWidths;
+
+        // Create workbook
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Reports History");
+
+        // Generate Excel file
+        const excelBuffer = XLSX.write(workbook, {
+            bookType: "xlsx",
+            type: "array",
+        });
+
+        // Create Blob and download
+        const blob = new Blob([excelBuffer], {
+            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        });
+
+        // Create download link
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `Reports_History_${
+            new Date().toISOString().split("T")[0]
+        }.xlsx`;
+        document.body.appendChild(link);
+        link.click();
+
+        // Clean up
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    } catch (error) {
+        console.error("Error exporting to Excel:", error);
+        alert("Failed to export data. Please try again.");
+    } finally {
+        isExporting.value = false;
+    }
+};
+
+// Fallback export function if xlsx library fails to load
+const exportToCsv = () => {
+    if (!chartData.value.length) {
+        alert("No data available to export");
+        return;
+    }
+
+    // Create CSV content
+    const headers = ["Date", "Number of Reports"];
+    const csvRows = [
+        headers.join(","),
+        ...chartData.value.map(
+            (item) => `"${item.formattedDate}",${item.count}`
+        ),
+    ];
+
+    const csvContent = csvRows.join("\n");
+
+    // Create Blob and download
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `Reports_History_${
+        new Date().toISOString().split("T")[0]
+    }.csv`;
+    document.body.appendChild(link);
+    link.click();
+
+    // Clean up
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+};
+
+onMounted(() => {
+    // Initialize button references
+    prevPageBtn.value = document.getElementById("prevPage");
+    nextPageBtn.value = document.getElementById("nextPage");
+
+    // Add click event listeners
+    if (prevPageBtn.value) {
+        prevPageBtn.value.addEventListener("click", handlePrevPage);
+    }
+
+    if (nextPageBtn.value) {
+        nextPageBtn.value.addEventListener("click", handleNextPage);
+    }
 });
 </script>
 
@@ -60,21 +211,24 @@ const props = defineProps({
                         </div>
                         <div class="flex gap-2">
                             <button
-                                class="dark:bg-[#6084FF] bg-[#3B5FBF] text-[#EEEEEE] font-bold px-5 py-1 rounded-[6px] text-[13px] cursor-pointer hover:dark:bg-[#4D6ACC] hover:bg-[#2F4C99]"
+                                @click="exportToExcel"
+                                :disabled="isExporting"
+                                class="dark:bg-[#6084FF] bg-[#3B5FBF] text-[#EEEEEE] font-bold px-5 py-1 rounded-[6px] text-[13px] cursor-pointer hover:dark:bg-[#4D6ACC] hover:bg-[#2F4C99] disabled:opacity-70 disabled:cursor-wait flex items-center justify-center min-w-[80px]"
                             >
-                                Export
+                                <span v-if="isExporting">Exporting...</span>
+                                <span v-else>Export</span>
                             </button>
                             <div class="pagination-controls">
                                 <button
                                     id="prevPage"
                                     disabled
-                                    class="text-[#EEEEEE] dark:bg-[#6084FF] bg-[#3B5FBF] py-1 px-3 rounded-[6px] mr-2 cursor-pointer hover:dark:bg-[#4D6ACC] hover:bg-[#2F4C99]"
+                                    class="text-[#EEEEEE] dark:bg-[#6084FF] bg-[#3B5FBF] py-1 px-3 rounded-[6px] mr-2 cursor-pointer hover:dark:bg-[#4D6ACC] hover:bg-[#2F4C99] disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     &#x276E;
                                 </button>
                                 <button
                                     id="nextPage"
-                                    class="text-[#EEEEEE] dark:bg-[#6084FF] bg-[#3B5FBF] py-1 px-3 rounded-[6px] mr-2 cursor-pointer hover:dark:bg-[#4D6ACC] hover:bg-[#2F4C99]"
+                                    class="text-[#EEEEEE] dark:bg-[#6084FF] bg-[#3B5FBF] py-1 px-3 rounded-[6px] mr-2 cursor-pointer hover:dark:bg-[#4D6ACC] hover:bg-[#2F4C99] disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     &#x276F;
                                 </button>
@@ -82,7 +236,12 @@ const props = defineProps({
                         </div>
                     </div>
                     <div class="flex flex-1 mt-4">
-                        <HistoryReports :concerns="props.concerns" />
+                        <HistoryReports
+                            ref="historyReportsRef"
+                            :concerns="props.concerns"
+                            @page-change="updatePaginationButtons"
+                            @data-ready="handleChartDataReady"
+                        />
                     </div>
                 </div>
                 <div
