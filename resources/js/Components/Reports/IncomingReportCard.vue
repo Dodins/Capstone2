@@ -3,8 +3,10 @@ import { ref, getCurrentInstance } from "vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import AcceptReport from "../Modal/AcceptReport.vue";
+import RejectReport from "../Modal/RejectReport.vue";
 import ImageView from "../Modal/ImageView.vue";
 import { router } from "@inertiajs/vue3";
+import axios from "axios";
 
 const props = defineProps({
     title: String,
@@ -15,19 +17,29 @@ const { proxy } = getCurrentInstance();
 const hostUrl = proxy.$hostUrl;
 const selectedImage = ref(null);
 const showAcceptConfirmation = ref(false);
+const showRejectConfirmation = ref(false);
 
-const openAcceptModal = (id) => {
+const openAcceptModal = () => {
     showAcceptConfirmation.value = true;
 };
 
-const closeDeleteModal = () => {
+const openRejectModal = () => {
+    showRejectConfirmation.value = true;
+};
+
+const closeAcceptModal = () => {
     showAcceptConfirmation.value = false;
+};
+
+const closeRejectModal = () => {
+    showRejectConfirmation.value = false;
 };
 
 const openImageView = (imageUrl) => {
     selectedImage.value = `${hostUrl}/${imageUrl}`;
 };
 
+// Original rejection function
 const rejectIncomingReport = async () => {
     console.log(props.incomingConcerns.id);
     try {
@@ -73,7 +85,7 @@ const rejectIncomingReport = async () => {
             </div>
             <div class="flex flex-col gap-2">
                 <PrimaryButton @click="openAcceptModal"> Accept </PrimaryButton>
-                <SecondaryButton @click="rejectIncomingReport">
+                <SecondaryButton @click="openRejectModal">
                     Reject
                 </SecondaryButton>
             </div>
@@ -81,8 +93,14 @@ const rejectIncomingReport = async () => {
     </div>
     <AcceptReport
         :show="showAcceptConfirmation"
-        @close="closeDeleteModal"
+        @close="closeAcceptModal"
         :incomingConcerns="props.incomingConcerns"
+    />
+    <RejectReport
+        :show="showRejectConfirmation"
+        @close="closeRejectModal"
+        :incomingConcerns="props.incomingConcerns"
+        :rejectFunction="rejectIncomingReport"
     />
     <ImageView
         v-if="selectedImage"
