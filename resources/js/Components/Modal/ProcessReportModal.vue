@@ -16,24 +16,45 @@ const uploadedFile = ref(null);
 
 // Checklists for different stages
 const newChecklist = ref([
-    { label: "Verify report information is complete", checked: false },
-    { label: "Check for duplicate reports", checked: false },
-    { label: "Validate submitter credentials", checked: false },
-    { label: "Acknowledge receipt to submitter", checked: false },
+    { label: "Verify the reported concern details.", checked: false },
+    {
+        label: "Check if the provided evidence is valid and clear.",
+        checked: false,
+    },
+    {
+        label: "Assign the concern to the appropriate team or personnel.",
+        checked: false,
+    },
+    {
+        label: "Notify the user that the concern is under review.",
+        checked: false,
+    },
 ]);
 
 const underReviewChecklist = ref([
-    { label: "Review attached documentation", checked: false },
-    { label: "Confirm affected systems/services", checked: false },
-    { label: "Verify impact assessment", checked: false },
-    { label: "Assign to appropriate team member", checked: false },
+    {
+        label: "Confirm that the concern requires further action.",
+        checked: false,
+    },
+    {
+        label: "Identify the necessary steps to address the concern.",
+        checked: false,
+    },
+    { label: "Gather additional information if needed.", checked: false },
+    { label: "Notify relevant authorities or departments.", checked: false },
 ]);
 
 const pendingActionChecklist = ref([
-    { label: "Document troubleshooting steps taken", checked: false },
-    { label: "Identify root cause", checked: false },
-    { label: "Test potential solutions", checked: false },
-    { label: "Update stakeholders on progress", checked: false },
+    { label: "Ensure all required actions have been taken.", checked: false },
+    { label: "Document the resolution process.", checked: false },
+    {
+        label: "Verify if the concern has been properly addressed.",
+        checked: false,
+    },
+    {
+        label: "Notify the user about the resolution.",
+        checked: false,
+    },
 ]);
 
 const resolvedChecklist = ref([
